@@ -6,7 +6,8 @@ let _currentTicketTypeId;
 let _currentCountOfTrips;
 let _currentTicketVariationId;
 
-let _orderTable;
+let _openOrderTable;
+let _closedOrderTable;
 
 let notificationController = new NotificationController();
 let selectController = new SelectController();
@@ -18,6 +19,49 @@ function formatDate(d) {
     var curr_year = d.getFullYear();
 
     return `${curr_year}-${curr_month}-${curr_date}`;
+}
+
+function _createOrderDataTable(selector, data) {
+    return dataTableController.create({
+        selector: selector,
+        columns: [
+            {
+                data: "ticketVariation", 
+                title: "Тип проїздного",
+                render: function ( data, type, row ) {
+                    console.log(row)
+
+                    let monthDiv = row.month != null ? 
+                        `<div class='small'>${row.month} (${row.price} грн)</div>` : 
+                        `<div class='small'>(${row.price} грн)</div>`;                            
+
+                    let htmlTemplate =
+                    `<div class='ticketVariationCell'>
+                        <div>${data}<div/>
+                        ${monthDiv}
+                    </div>`;
+
+                    return htmlTemplate;
+                },    
+                width: "33%"
+            },
+            {data: "countOfTrips", title: "Поїздки", className: 'text-center', width: "33%"},
+            {data: "requestState", title: "Статус", className: 'text-center', width: "33%"}
+        ], 
+        pageLenght: 5,
+        ajax: {
+            url: "/Page/GetOrdersByCurrentUser",
+            data: data
+        }
+    });
+}
+
+function _initOrderDataTables() {
+    _openOrderTable = _createOrderDataTable("#openedOrderList", {isCLosed: 0});
+    
+
+    _closedOrderTable = _createOrderDataTable("#closedOrderList", {isCLosed: 1});
+    _closedOrderTable.columns.adjust().draw();
 }
 
 class TicketsOrderingController {
@@ -65,36 +109,22 @@ class TicketsOrderingController {
             _this.submitOrderTicket();
         });
 
-        _orderTable = dataTableController.create({
-                selector: "#orderList",
-                columns: [
-                    {
-                        data: "ticketVariation", 
-                        title: "Тип проїздного",
-                        render: function ( data, type, row ) {
-                            console.log(row)
+        _initOrderDataTables();
+    }
 
-                            let monthDiv = row.month != null ? 
-                                `<div class='small'>${row.month} (${row.price} грн)</div>` : 
-                                `<div class='small'>(${row.price} грн)</div>`;                            
+    reloadOrderTable(isClosed) {
 
-                            let htmlTemplate =
-                            `<div class='ticketVariationCell'>
-                                <div>${data}<div/>
-                                ${monthDiv}
-                            </div>`;
+        switch(isClosed) {
+            case 0: 
+                _openOrderTable.ajax.reload(null, false);
+                _openOrderTable.columns.adjust();//.draw(false);
+                break;
+            default: 
+                _closedOrderTable.ajax.reload(null, false);
+                _closedOrderTable.columns.adjust();//.draw(false);
+            break;
+        }
 
-                            return htmlTemplate;
-                        },    
-                    },
-                    {data: "countOfTrips", title: "Поїздки", className: 'text-center'},
-                    //{data: "userName", title: "Замовник", className: 'text-center'},
-                    {data: "requestState", title: "Статус", className: 'text-center'}
-                ], 
-                ajax: {
-                    url: "/Page/GetOrdersByCurrentUser"
-                }
-        });
     }
 
     submitOrderTicket() {
@@ -213,7 +243,8 @@ class TicketsOrderingController {
         $('#price-text').text('');
         $('#month').data('datepicker').clear();
 
-        _orderTable.ajax.reload();
+        _openOrderTable.ajax.reload();
+        _closedOrderTable.ajax.reload();
 
         // ----------------------------
 

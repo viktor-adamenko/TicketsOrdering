@@ -51,9 +51,9 @@ namespace TicketsOrdering.WEB_UI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetOrdersByCurrentUser()
+        public IActionResult GetOrdersByCurrentUser(int isClosed)
         {
-            var data = _orderRepository.GetOrdersByUser(UserClaims.User.UserId);
+            var data = _orderRepository.GetOrdersByUser(UserClaims.User.UserId, isClosed);
 
             return Json(new {data = data},
                 new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()});

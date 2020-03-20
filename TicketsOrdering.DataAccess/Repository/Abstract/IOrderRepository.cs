@@ -8,6 +8,6 @@ namespace TicketsOrdering.DataAccess.Repository.Abstract
     public interface IOrderRepository
     {
         void OrderTicket(OrderTicketModel orderTicketModel);
-        IEnumerable<Request> GetOrdersByUser(int userId);
+        IEnumerable<Request> GetOrdersByUser(int userId, int isClosed);
     }
 }

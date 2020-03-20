@@ -34,7 +34,7 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
             }
         }
 
-        public IEnumerable<Request> GetOrdersByUser(int userId)
+        public IEnumerable<Request> GetOrdersByUser(int userId, int isClosed)
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
@@ -69,11 +69,12 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
                                       ON r.UserId = u.Id
                                      LEFT JOIN RequestState rs 
                                       ON rs.Id = r.RequestStateId
-                                     WHERE u.Id = @UserId";
+                                     WHERE u.Id = @UserId and rs.IsClosed = @IsClosed";
 
                 return con.Query<Request>(sqlQuery, new
                 {
-                    UserId = userId
+                    UserId = userId,
+                    IsClosed = isClosed
                 });
             }
         }

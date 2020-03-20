@@ -1,7 +1,7 @@
 class SwitchButtonController {
 
     init() {
-        let _this = this;
+        let _this = this;        
 
         $('.switch-button-group button[data-tab-id]').on('click', function() {
             
@@ -12,6 +12,12 @@ class SwitchButtonController {
             $(this).attr('selected-tab', true);
             
             _this.toggleTabs($(this));
+
+            let afterShowEvent = $(this).attr('afterShowEvent');
+            
+            if(afterShowEvent != null && afterShowEvent != ' ') {
+                eval(afterShowEvent);
+            }
         });
     }
 

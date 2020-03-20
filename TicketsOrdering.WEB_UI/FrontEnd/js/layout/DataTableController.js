@@ -29,7 +29,7 @@ class DataTableController {
             ordering: false,
             searching: false,
             language: uaLocalization,
-            pageLength: 6,
+            pageLength: config.pageLenght,
             columns: config.columns,
             ajax: config.ajax
         });
