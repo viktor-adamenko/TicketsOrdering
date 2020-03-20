@@ -1,0 +1,59 @@
+﻿@using TicketsOrdering.DataAccess.Models
+@{
+    ViewData["Title"] = "Реєстрація";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="flex-block-center">
+    <div class="div-wrapper sign-up-block">
+        <form autocomplete="off" id="signup-form">
+            <div class="form-content">
+                <div class="form-header">
+                    <div class="back-button" onclick="accountController.clickBackButton()">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <div class="header-text">
+                        <h2>Реєстрація</h2>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <span class="label-text">Логін користувача</span>
+                    <input class="form-input" placeholder="Логін користувача" data-input-key="UserLogin" data-validate-field/>
+                </div>
+                <div class="form-item">
+                    <span class="label-text">Пароль</span>
+                    <input class="form-input" placeholder="Пароль" type="password" autocomplete="new-password" data-input-key="UserPassword" data-validate-field/>
+                </div>
+                <div class="form-item">
+                    <span class="label-text">ПІБ користувача</span>
+                    <input class="form-input" placeholder="ПІБ користувача" data-input-key="FullName" data-validate-field/>
+                </div>
+                <div class="form-item">
+                    <span class="label-text">Факультет</span>
+                    <div class="select2-wrapper">
+                        <select id="university-faculty" placeholder="Факультет" data-input-key="UniversityFacultyId" data-validate-field></select>
+                    </div>
+                </div>
+                <div class="form-item">
+                    <span class="label-text">Група</span>
+                    <div class="select2-wrapper">
+                        <select id="university-group" placeholder="Група" data-input-key="UniversityGroupId" data-validate-field></select>
+                    </div>
+                </div>
+
+                <div class="form-item">
+                    <span class="label-text">Я хочу зарееструватися як</span>
+                    <div class="select2-wrapper">
+                        <select id="user-role" placeholder="Я хочу зарееструватися як" data-input-key="RoleId" data-validate-field></select>
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <button class="primary-button w-100" type="submit">Зареєструватися</button>
+                </div>
+            </div>
+        </form>      
+    </div>
+</div>
+
+<script src="~/js/signup/signupMain.js"></script>

@@ -1,0 +1,45 @@
+.notification-list {
+    position: absolute;
+
+    .notification-content {
+        width: max-content;
+        user-select: none;
+    }
+
+    span.close-button {
+        margin-left: 20px;
+        cursor: pointer;
+    }
+}
+
+.notification-danger {
+    margin-bottom: 10px;
+
+    max-width: 500px;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;    
+    padding: 17px 20px;
+    font-size: 15px;
+    box-sizing: border-box;
+    color: white;
+    border-radius: 5px;
+    background-color: #ff6c4a;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25), 0px 1px 2px rgba(0, 0, 0, 0.14);
+}
+
+.notification-success {
+    margin-bottom: 10px;
+
+    max-width: 500px;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;    
+    padding: 17px 20px;
+    font-size: 15px;
+    box-sizing: border-box;
+    color: white;
+    border-radius: 5px;
+    background-color: #9DCA54;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25), 0px 1px 2px rgba(0, 0, 0, 0.14);
+}

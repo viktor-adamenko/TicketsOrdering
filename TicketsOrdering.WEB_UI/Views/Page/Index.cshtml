@@ -1,0 +1,106 @@
+﻿@using TicketsOrdering.DataAccess.Models
+@using TicketsOrdering.Security.Entities
+@{
+    ViewData["Title"] = "Головна сторінка";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var userClaims = (ViewBag.UserClaims as UserClaims) ?? new UserClaims();
+    var paymentMethods = (ViewBag.PaymentMethods as List<PaymentMethod>) ?? new List<PaymentMethod>();
+}
+
+<link href="~/css/student/studentMain.css" rel="stylesheet" />
+
+<div class="container-content flex-row">
+    <div class="content-col--25" id="news-block">
+    </div>
+
+    <div class="content-col--75">
+        <div class="content-row order-tickets--height" id="ordering-tickets">
+            <div class="div-wrapper full-height">
+                <div class="wrapper-header">
+                    <div class="back-button" id="cancel-ordering" style="visibility: hidden" onclick="ticketsOrderingController.collapseOredringBlock()">
+                        <i class="fas fa-arrow-left"></i>
+                    </div>
+                    <div class="header-text">
+                        <span>Замовлення проїздних</span>
+                        <span id="current-ticket-type" style="display: none"></span>
+                    </div>
+                </div>
+                <div class="order-tickets-content form-content" id="select-ticket-type">
+                    <div class="content-col form-item" style="width: 60%">
+                        <span class="label-text--small">Якиї проїздний бажаєте замовити?</span>
+                        <div class="select2-wrapper">
+                            <select id="ticket-type-id" placeholder="Тип проїздного" data-input-key="TicketTypeId" data-validate-field></select>
+                        </div>
+                    </div>
+                    <div class="content-col form-item" style="width: 40%">
+                        <button class="success-button small" onclick="ticketsOrderingController.continueTicketsOrdering();">Продовжити оформлення</button>
+                    </div>
+                </div>
+
+                <div class="form-content" id="continue-tickets-ordering" style="display: none">
+
+                    <div class="payment-method-block">
+                        <span class="header-payment-method">Оплата проїздного</span>
+                        <span>Виберіть спосіб оплати проїздного: </span>
+                        <div class="radio-button-group">
+                            @*<div><input type="radio" value="1" id="cash-method" name="payment-method" checked="checked"/> <label for="cash-method">Оплата готівкою</label></div>
+                                <div><input type="radio" value="2" id="card-method" name="payment-method" /> <label for="card-method">Оплата карткою</label></div>*@
+                            @foreach (var el in paymentMethods)
+                            {
+                                <div><input type="radio" value="@el.Id" id="payment-method-@el.Id" name="payment-method" @(el.Id == 1 ? "checked" : string.Empty) /> <label for="payment-method-@el.Id">@el.Description</label></div>
+                            }
+                        </div>
+                        <span id="card-payment-method" style="display: none">
+                            <span>Номер картки профорга групи: </span> <span id="card-number">5032 3209 1892 4856</span>
+                        </span>
+                    </div>
+
+                    <div id="student-ticket-form">
+                        <div class="form-item flex-items">
+                            <div class="item">
+                                <span class="label-text">Місяць</span>
+                                <input type="text"
+                                       class="form-input"
+                                       autocomplete="off"
+                                       data-min-view="months"
+                                       data-view="months"
+                                       data-date-format="MM yyyy" placeholder="Місяць" id="month" />
+                            </div>
+                            <div class="item">
+                                <span class="label-text">К-ть поїздок</span>
+                                <div class="select2-wrapper">
+                                    <select id="count-trips-sel" placeholder="К-ть поїздок"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-item">
+                            <span class="label-text">Проїздний</span>
+                            <div class="select2-wrapper">
+                                <select id="ticket-variation-sel" placeholder="Проїздний" disabled></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <button id="submit-order-btn" class="primary-button">Замовити<span id="price-text"></span></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="content-row orders-table--height" id="orders-table">
+            <div class="div-wrapper full-height">
+                <span class="wrapper-header">Мої замовлення</span>
+                <div class="custom-table-wrapper">
+                    <table id="orderList" class="custom-table">                        
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/page/pageMain.js"></script>

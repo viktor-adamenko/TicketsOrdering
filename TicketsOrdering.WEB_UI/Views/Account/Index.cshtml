@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "Авторизація";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+<div class="login">
+
+    <div class="login-block div-float-style">
+        <div class="login-icon primary-div-color box-shadow-style">
+            <i class="fas fa-user"></i>
+        </div>
+        <div class="login-header">
+            <h2>Вхід в систему</h2>
+        </div>
+        <div class="form-content">
+            <form id="login-form">
+                <div class="form-item icon-input">
+                    <input id="inpt-login" placeholder="Логін користувача" /> <i class="fas fa-user"></i>
+                </div>
+
+                <div class="form-item icon-input">
+                    <input id="inpt-pass" placeholder="Пароль" type="password" /> <i class="fas fa-lock"></i>
+                </div>
+
+                <div class="form-item">
+                    <button id="login-button" type="submit" class="primary-button w-100">Вхід</button>
+                </div>
+            </form>
+            <div class="form-item">
+                <span class="signup-text">Немає облікового запису? <a id="signUpButton" href="/Account/SignUp/" class="primary-text-color">Зареєструватися</a></span>
+            </div>
+        </div>
+        <div class="error-block" style="display: none">
+            <span id="error-message"></span>
+            <span onclick="accountController.closeErrorBlock()"><i class="fas fa-times"></i></span>
+        </div>
+    </div>
+</div>
+<script src="~/js/layout/layoutMain.js"></script>

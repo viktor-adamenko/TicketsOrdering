@@ -1,0 +1,63 @@
+@import "./variables";
+
+.w-100 {
+  width: 100%;
+}
+
+.div-float-style {
+  box-shadow: $div-box-shadow;
+  background-color: white;
+  border-radius: 7px;
+}
+
+.box-shadow-style {
+  box-shadow: $div-box-shadow;
+}
+
+.flex-block-center {
+  height: 100%;
+  display: flex;
+  justify-content: safe center;
+  align-items: safe center;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.div-wrapper {
+  box-shadow: $div-box-shadow;
+  background-color: white;
+  border-radius: 7px;
+  padding: 20px;
+
+  .wrapper-header {
+    display: flex;
+    width: 100%;
+
+    margin-bottom: 20px;
+
+    .header-text {
+      flex: 1 1 0px;
+      margin-left: -21px;
+      text-align: center;
+      font-size: 22px;
+    }
+  }
+
+  span.wrapper-header {
+    font-size: 22px;
+    text-align: center;
+    display: block;
+  }
+}
+
+.padding-30 {
+  padding: 30px;
+}

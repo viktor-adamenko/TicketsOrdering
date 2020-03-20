@@ -1,0 +1,204 @@
+@import './variables';
+
+.primary-button {
+    outline: none;
+    border: none;
+    background-color: $primary-color;
+    color: white;
+    padding: 0 20px;
+    height: 45px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 400;
+    box-shadow: 0px 2px 0px rgba(53, 51, 164, 0.25);
+}
+
+.primary-button:hover{
+    background-color:  darken($primary-color, $hover-darken);
+}
+
+.primary-button:active{
+    background-color:  lighten($primary-color, $pressed-lighten);
+}
+
+.back-button {
+    display: flex;
+    font-size: 24px;
+    justify-self: start;
+    position: relative;
+    color: gray;
+
+    :hover {
+        color: lighten(#000000, 40);
+        cursor: pointer;
+    }
+}
+
+.success-button {
+    outline: none;
+    padding: 0 20px;
+    border: 2px solid $success-color;
+    background-color: $success-color;
+    color: white;
+    height: 45px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    box-shadow: 0px 2px 0px rgba(6, 153, 1, 0.25);
+    transition: 0.2s;
+
+    &:hover {
+        background-color:  darken($success-color, $hover-darken);
+    }
+
+    &:active {
+        //background-color:  //lighten($success-color, $pressed-lighten);
+        background-color:  transparent;
+        color: $success-color;
+    }
+
+    &.small {
+        font-size: 18px;
+        height: 40px;
+    }
+}
+
+.danger-button {
+    outline: none;
+    padding: 0 20px;
+    border: none;
+    background-color: $dunger-color;
+    color: white;
+    height: 45px;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 1px;
+    box-shadow: 0px 2px 0px rgba(255, 0, 0, 0.25);
+
+    &:hover {
+        background-color:  darken($dunger-color, $hover-darken);
+    }
+
+    &:active {
+        background-color:  lighten($dunger-color, $pressed-lighten);
+    }
+}
+
+.link-button {
+    outline: none;
+    padding: 0 20px;
+    background-color: transparent;
+    text-align: center;
+    vertical-align: middle;
+    border: none;
+    color: $primary-color;
+    height: 45px;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: normal;
+
+    &:hover{        
+        background-color:  lighten($primary-color, 36%);
+    }
+
+    &:active{        
+        background-color:  lighten($primary-color, 33%);
+    }
+}
+
+.switch-button-group {
+    button {
+        outline: none;
+    }
+}
+
+.switch-button-group {
+    width: 100%;
+    display: flex;
+    height: 40px;
+    border-radius: 6px;
+    background-color: #EAEAEA;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.25);
+    margin-bottom: 20px;
+
+    button {
+        transition: 0.1s;
+    }
+
+    button[selected-tab=true] {
+        background-color: $primary-color;    
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        color: white;
+        font-size: 15px;
+        letter-spacing: 0.1em;        
+
+        &:hover{        
+            background-color:  darken($primary-color, $hover-darken);
+        }    
+
+        &:active{
+            background-color:  lighten($primary-color, $pressed-lighten);
+        }
+    }
+
+    button[selected-tab=false] {
+        background-color: transparent;
+        border: none;
+        border-radius: 5px;
+        width: 100%;
+        color: #515151;
+        font-size: 15px;
+        letter-spacing: 0.1em;
+
+        &:hover{        
+            background-color:  darken(#EAEAEA, $hover-darken);
+        } 
+
+        &:active{
+            background-color:  lighten(#EAEAEA, $pressed-lighten);
+        }
+    }
+
+    // .primary-switch-button {
+    //     background-color: $primary-color;    
+    //     border: none;
+    //     border-radius: 5px;
+    //     width: 100%;
+    //     color: white;
+    //     font-size: 15px;
+    //     letter-spacing: 0.1em;        
+
+    //     &:hover{        
+    //         background-color:  darken($primary-color, $hover-darken);
+    //     }    
+
+    //     &:active{
+    //         background-color:  lighten($primary-color, $pressed-lighten);
+    //     }
+    // }
+
+    // .transparent-switch-button {
+    //     background-color: transparent;
+    //     border: none;
+    //     border-radius: 5px;
+    //     width: 100%;
+    //     color: #515151;
+    //     font-size: 15px;
+    //     letter-spacing: 0.1em;
+
+    //     &:hover{        
+    //         background-color:  darken(#EAEAEA, $hover-darken);
+    //     } 
+
+    //     &:active{
+    //         background-color:  lighten(#EAEAEA, $pressed-lighten);
+    //     }
+    // }
+
+}

@@ -1,0 +1,266 @@
+.main-container {
+  margin: 0 auto;
+  padding-top: 25px;
+  display: flex;
+  height: 830px;
+  justify-content: flex-start;
+
+  width: 70%;
+  min-width: 1220px;
+
+  .header-block {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding-left: 38px;
+    margin-bottom: 25px;
+
+    justify-content: space-between;
+
+    .header-caption {
+      margin: 0;
+      margin-bottom: 5px;
+      font-size: 24px;
+      font-weight: 400;
+    }
+
+    .welcome-text {
+      font-size: 14px;
+      color: #747474;
+    }
+  }
+
+  .container-content {
+    width: 100%;
+    height: 86%;
+  }
+}
+
+.content-col--25 {
+  width: 35%;
+  margin-right: 25px;
+
+  &:last-child {
+    margin-right: 0px;
+  }
+}
+
+.content-col--75 {
+  width: 65%;
+}
+
+.content-row {
+  margin-bottom: 25px;
+
+  &:last-child {
+    margin-right: 0px;
+  }
+}
+
+.full-height {
+  height: 100%;
+}
+
+.order-tickets--height {
+  height: 26%;
+}
+
+.orders-table--height {
+  height: calc(74% - 25px);
+}
+
+.tab-content--pushed {
+  padding: 12px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 1px 4px inset;
+  height: 540px;
+  overflow: auto;
+}
+
+.order-tickets-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.content-col {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+
+  &:last-child {
+    margin-right: 0px;
+  }
+}
+
+#continue-tickets-ordering {
+  width: 64%;
+  margin: auto;
+  margin-top: 40px;
+
+  .form-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+
+    button {
+      width: 60%;
+    }
+  }
+}
+
+#current-ticket-type {
+  font-size: 14px;
+  margin-top: 5px;
+  color: #747474;
+  display: block;
+}
+
+#price-text {
+  font-size: 16px;
+}
+
+.payment-method-block {
+  border: 2px solid #1a68df;
+  background-color: rgb(234, 245, 253);
+
+  border-radius: 5px;
+  padding: 15px;
+  color: rgb(3, 36, 85);
+
+  .header-payment-method {
+    display: block;
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 19px;
+  }
+
+  .radio-button-group {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    margin-top: 7px;
+  }
+
+  #card-payment-method {
+    display: block;
+    margin-top: 20px;
+  }
+
+  #card-number {
+    font-weight: 600;
+  }
+}
+
+.custom-table {
+  border-bottom: 0px !important;
+
+  thead {
+    tr {
+      th {
+        color: #595959;
+        font-weight: 500;
+        background-color: #f0f1ff;
+        border-color: rgba(1, 26, 255, 0.219);
+        border-width: 2px;
+
+        &:first-child {
+          border-top-left-radius: 5px;
+          border-bottom-left-radius: 5px;
+        }
+
+        &:last-child {
+          border-top-right-radius: 5px;
+          border-bottom-right-radius: 5px;
+        }
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        border-bottom-color: #eaeaea;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
+  }
+}
+
+.custom-table-wrapper {
+  .dataTables_paginate {
+    .paginate_button.previous,
+    .paginate_button.next {
+      outline: none;
+      border-radius: 5px;
+      border: none !important;
+      padding: 4px 11px;
+      border-bottom: 2px solid transparent !important;
+      color: #595959 !important;
+
+      &:hover {
+        border-radius: 5px;
+        border: none !important;
+        padding: 4px 11px;
+        border-bottom: 2px solid rgba(1, 26, 255, 0.219) !important;
+        vertical-align: middle;
+        background: #f0f1ff !important;
+        color: #595959 !important;
+        outline: none;
+      }
+    }
+
+    span .current {
+      border-radius: 5px;
+      border: none !important;
+      padding: 4px 11px;
+      border-bottom: 2px solid rgba(1, 26, 255, 0.219) !important;
+      vertical-align: middle;
+      background: #f0f1ff !important;
+      color: #595959 !important;
+      outline: none;
+    }
+
+    span .paginate_button {
+      padding: 4px 11px;
+      vertical-align: middle;
+      border-radius: 5px;
+      border: none;
+      outline: none;
+
+      &:hover {
+        border: none;
+        border-bottom: 2px solid rgba(3, 17, 148, 0.493) !important;
+        background: rgba(3, 17, 148, 0.493) !important;
+      }
+    }
+  }
+}
+
+.custom-table-paging {
+  border-radius: 5px;
+  border: none;
+  padding: 4px 11px;
+  border-bottom: 2px solid rgba(1, 26, 255, 0.219);
+  vertical-align: middle;
+  background: #f0f1ff;
+  color: #595959 !important;
+}
+
+.ticketVariationCell {
+  text-align: center;
+
+  .small {
+    color: gray;
+    font-size: 14px;
+  }
+}
+
+.text-center {
+  text-align: center;
+}

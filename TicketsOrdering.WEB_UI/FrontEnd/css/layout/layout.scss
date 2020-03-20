@@ -1,0 +1,47 @@
+html, body {
+    height: 100%;
+    font-family: 'Ubuntu';
+}
+
+* {
+
+  box-sizing: border-box;
+
+  &::after {
+    box-sizing: border-box;
+  }
+
+  &::before {
+    box-sizing: border-box;
+  }
+}
+
+input, button {
+    font-family: 'Ubuntu';
+}
+
+body {
+    margin: 0;
+    background-color: rgb(248, 249, 250)
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 5px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 5px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(104, 104, 104); 
+  }

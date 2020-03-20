@@ -1,0 +1,41 @@
+﻿@using TicketsOrdering.Security.Entities
+@{
+    var userClaims = (ViewBag.UserClaims as UserClaims) ?? new UserClaims();
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Замовлення проїздних</title>
+
+    <link href="~/css/libs.css" rel="stylesheet" />
+    <link href="~/css/layout/layoutMain.css" rel="stylesheet" />
+
+    <script src="~/js/libs.js"></script>
+    <script src="~/js/layout/layoutMain.js"></script>
+</head>
+<body>
+<input type="hidden" id="userId" value="@userClaims.User.UserId" />
+
+<div class="main-container flex-column">
+    <div class="div-wrapper header-block">
+        <div class="header-part">
+            <h2 class="header-caption">Власний кабінет</h2>
+            <small class="welcome-text">Ласкаво просимо, @userClaims.User.FullName</small>
+        </div>
+        <div class="header-part">
+            <button class="link-button">
+                Редагувити профіль
+            </button>
+            <button class="danger-button" id="logout-button" onclick="window.location.href = '@Url.Action("Logout", "Account")'">
+                Вихід
+            </button>
+        </div>
+    </div>
+    @RenderBody()
+</div>
+
+</body>
+</html>
