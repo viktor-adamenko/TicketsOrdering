@@ -22,4 +22,8 @@
     <ProjectReference Include="..\TicketsOrdering.Security\TicketsOrdering.Security.csproj" />
   </ItemGroup>
 
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="gulp build" />
+  </Target>
+
 </Project>

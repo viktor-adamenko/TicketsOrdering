@@ -9,6 +9,13 @@
 ## 
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# CustomFiles
+
+TicketsOrdering.WEB_UI/wwwroot/js/
+TicketsOrdering.WEB_UI/wwwroot/fonts/
+TicketsOrdering.WEB_UI/wwwroot/images/
+TicketsOrdering.WEB_UI/wwwroot/css/
+
 # User-specific files
 *.rsuser
 *.suo
