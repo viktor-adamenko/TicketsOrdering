@@ -35,6 +35,11 @@ namespace TicketsOrdering.WEB_UI.Controllers
             return View();
         }
 
+        public IActionResult MyOrders()
+        {
+            return PartialView("_MyOrders");
+        }
+
         [HttpPost]
         public IActionResult OrderTicket(OrderTicketModel model)
         {

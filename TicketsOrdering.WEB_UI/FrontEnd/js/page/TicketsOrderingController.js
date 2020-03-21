@@ -26,28 +26,28 @@ function _createOrderDataTable(selector, data) {
         selector: selector,
         columns: [
             {
-                data: "ticketVariation", 
+                data: "ticketVariation",
                 title: "Тип проїздного",
-                render: function ( data, type, row ) {
+                render: function (data, type, row) {
                     console.log(row)
 
-                    let monthDiv = row.month != null ? 
-                        `<div class='small'>${row.month} (${row.price} грн)</div>` : 
-                        `<div class='small'>(${row.price} грн)</div>`;                            
+                    let monthDiv = row.month != null ?
+                        `<div class='small'>${row.month} (${row.price} грн)</div>` :
+                        `<div class='small'>(${row.price} грн)</div>`;
 
                     let htmlTemplate =
-                    `<div class='ticketVariationCell'>
+                        `<div class='ticketVariationCell'>
                         <div>${data}<div/>
                         ${monthDiv}
                     </div>`;
 
                     return htmlTemplate;
-                },    
+                },
                 width: "33%"
             },
-            {data: "countOfTrips", title: "Поїздки", className: 'text-center', width: "33%"},
-            {data: "requestState", title: "Статус", className: 'text-center', width: "33%"}
-        ], 
+            { data: "countOfTrips", title: "Поїздки", className: 'text-center', width: "33%" },
+            { data: "requestState", title: "Статус", className: 'text-center', width: "33%" }
+        ],
         pageLenght: 5,
         ajax: {
             url: "/Page/GetOrdersByCurrentUser",
@@ -57,14 +57,29 @@ function _createOrderDataTable(selector, data) {
 }
 
 function _initOrderDataTables() {
-    _openOrderTable = _createOrderDataTable("#openedOrderList", {isCLosed: 0});
-    
+    _openOrderTable = _createOrderDataTable("#openedOrderList", { isCLosed: 0 });
 
-    _closedOrderTable = _createOrderDataTable("#closedOrderList", {isCLosed: 1});
+
+    _closedOrderTable = _createOrderDataTable("#closedOrderList", { isCLosed: 1 });
     _closedOrderTable.columns.adjust().draw();
 }
 
 class TicketsOrderingController {
+
+    initOrderingTable() {
+        let _this = this;
+
+        $.ajax({
+            url: "/Page/MyOrders/",
+            method: "GET",
+            success: function(data) {
+
+                $('#orders-table').html(data);
+                _this.initControlls();
+
+            }
+        });
+    }
 
     initControlls() {
         let _this = this;
@@ -114,15 +129,15 @@ class TicketsOrderingController {
 
     reloadOrderTable(isClosed) {
 
-        switch(isClosed) {
-            case 0: 
+        switch (isClosed) {
+            case 0:
                 _openOrderTable.ajax.reload(null, false);
                 _openOrderTable.columns.adjust();//.draw(false);
                 break;
-            default: 
+            default:
                 _closedOrderTable.ajax.reload(null, false);
                 _closedOrderTable.columns.adjust();//.draw(false);
-            break;
+                break;
         }
 
     }
@@ -130,7 +145,7 @@ class TicketsOrderingController {
     submitOrderTicket() {
         let _this = this;
         let userId = $('#userId').val();
-        let paymentMethodId = $('input[name="payment-method"]:checked').val();        
+        let paymentMethodId = $('input[name="payment-method"]:checked').val();
 
         let ajaxOption = function (data) {
             return {
@@ -334,6 +349,11 @@ class TicketsOrderingController {
 
 }
 
-let ticketsOrderingController = new TicketsOrderingController();
-ticketsOrderingController.initControlls();
-window.ticketsOrderingController = ticketsOrderingController;
+$(document).ready(function () {
+
+    let ticketsOrderingController = new TicketsOrderingController();
+    ticketsOrderingController.initOrderingTable();
+
+    window.ticketsOrderingController = ticketsOrderingController;
+
+})
