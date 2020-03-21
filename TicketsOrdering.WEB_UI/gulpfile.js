@@ -44,6 +44,19 @@ let fontsConfig = {
 
 // --------------------- //
 
+gulp.task('jsp', async function () {
+
+        var s = gulp.src("./FrontEnd/js/page/**/*.js")
+            .pipe(concat(`pageMain.js`))
+            .pipe(babel({ presets: ['@babel/env'] }))
+            .pipe(iif(isBuild, streamify(uglify())))
+            .pipe(gulp.dest(`./wwwroot/js/page/`))
+            .pipe(iif(!isBuild, browser.stream()))
+            .on('error', function(err) {console.log(err)});
+
+    return s
+});
+
 const cssLibs = ['./node_modules/select2/dist/css/select2.min.css',                 
 './node_modules/air-datepicker/dist/css/datepicker.min.css',
 './node_modules/datatables.net-dt/css/jquery.dataTables.min.css'
@@ -120,7 +133,8 @@ gulp.task('js', async function () {
             .pipe(babel({ presets: ['@babel/env'] }))
             .pipe(iif(isBuild, streamify(uglify())))
             .pipe(gulp.dest(`./wwwroot/js/${key}/`))
-            .pipe(iif(!isBuild, browser.stream()));
+            .pipe(iif(!isBuild, browser.stream()))
+            .on('error', function(err) {console.log(err)});
 
         streams.push(s);
     }

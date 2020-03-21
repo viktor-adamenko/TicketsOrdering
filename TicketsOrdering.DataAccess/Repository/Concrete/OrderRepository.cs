@@ -34,7 +34,7 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
             }
         }
 
-        public IEnumerable<Request> GetOrdersByUser(int userId, int isClosed)
+        public IEnumerable<Order> GetOrdersByUser(int userId, int isClosed)
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
@@ -46,21 +46,9 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
                                             ELSE CAST(tv.CountOfTrips AS VARCHAR)
                                           END CountOfTrips
                                          ,r.Price
-                                          ,CASE WHEN MONTH(r.Month) = 1 THEN  'Січень'
-                                            WHEN MONTH(r.Month) = 2 THEN  'Лютий'
-                                            WHEN MONTH(r.Month) = 3 THEN  'Березень'
-                                            WHEN MONTH(r.Month) = 4 THEN  'Квітень'
-                                            WHEN MONTH(r.Month) = 5 THEN  'Травень'
-                                            WHEN MONTH(r.Month) = 6 THEN  'Червень'
-                                            WHEN MONTH(r.Month) = 7 THEN  'Липень'
-                                            WHEN MONTH(r.Month) = 8 THEN  'Серпень'
-                                            WHEN MONTH(r.Month) = 9 THEN  'Вересень'
-                                            WHEN MONTH(r.Month) = 10 THEN  'Жовтень'
-                                            WHEN MONTH(r.Month) = 11 THEN  'Листопад'
-                                            WHEN MONTH(r.Month) = 12 THEN  'Грудень'
-                                            ELSE NULL
-                                          END Month
+                                          ,dbo.DateTimeToMonthUa(r.Month) Month
                                          ,u.FullName UserName
+                                         ,rs.Id RequestStateId
                                          ,rs.Name RequestState
                                     FROM Request r
                                     LEFT JOIN TicketVariation tv
@@ -71,7 +59,7 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
                                       ON rs.Id = r.RequestStateId
                                      WHERE u.Id = @UserId and rs.IsClosed = @IsClosed";
 
-                return con.Query<Request>(sqlQuery, new
+                return con.Query<Order>(sqlQuery, new
                 {
                     UserId = userId,
                     IsClosed = isClosed

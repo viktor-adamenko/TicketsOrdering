@@ -19,11 +19,13 @@ namespace TicketsOrdering.WEB_UI.Controllers
         private UserClaims UserClaims => new UserClaims(HttpContext.User.Claims);
 
         private readonly IOrderRepository _orderRepository;
+        private readonly IRequestRepository _requestRepository;
         private readonly ISelectorRepository _selectorRepository;
 
-        public PageController(IOrderRepository orderRepository, ISelectorRepository selectorRepository)
+        public PageController(IOrderRepository orderRepository, ISelectorRepository selectorRepository, IRequestRepository requestRepository)
         {
             _orderRepository = orderRepository;
+            _requestRepository = requestRepository;
             _selectorRepository = selectorRepository;
         }
 
@@ -67,6 +69,15 @@ namespace TicketsOrdering.WEB_UI.Controllers
 
             return Json(new {data = data},
                 new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()});
+        }
+
+        [HttpGet]
+        public IActionResult GetRequestOrdersByUniversityGroup(int isClosed)
+        {
+            var data = _requestRepository.GetOrderRequestByUniversityGroup(UserClaims.User.UniversityGroupId, isClosed);
+
+            return Json(new { data = data },
+                new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
         }
     }
 }

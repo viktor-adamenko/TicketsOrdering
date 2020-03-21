@@ -1,3 +1,9 @@
+function _initCancelOrderingButton(callback) {
+    $('#cancel-ordering').on('click', function() {
+        callback();
+    });
+}
+
 class ContentController {
 
     getCurrentUserId() {
@@ -29,11 +35,11 @@ class ContentController {
 
     }
 
+
+
 }
 
 $(document).ready(function () {
-
-    debugger;
 
     let contentController = new ContentController();
     let ticketsOrderingController = new TicketsOrderingController();
@@ -50,11 +56,25 @@ $(document).ready(function () {
 
         let userRole = $('#userRole').val();
         switch (userRole) {
-            case "ProForma Group":
-                proFormaRequestsController.initProFormaRequestsBlock(resolve, reject);
+            case "ProForma Group":     
+
+                proFormaRequestsController.initProFormaRequestsBlock(resolve, reject);    
+                _initCancelOrderingButton(() => {
+                    ticketsOrderingController.collapseOredringBlock(() => {
+                        proFormaRequestsController.reloadAllTables();
+                    });
+                });
+                         
                 break;
             case "Student":
+
                 ticketsOrderingController.initMyOrdersBlock(resolve, reject);
+                _initCancelOrderingButton(() => {
+                    ticketsOrderingController.collapseOredringBlock(() => {
+                        ticketsOrderingController.reloadAllTables();
+                    });
+                }); 
+
                 break;
             default: 
                 reject();
@@ -69,6 +89,7 @@ $(document).ready(function () {
     });
 
     window.ticketsOrderingController = ticketsOrderingController;
+    window.proFormaRequestsController = proFormaRequestsController;
 
 });
 

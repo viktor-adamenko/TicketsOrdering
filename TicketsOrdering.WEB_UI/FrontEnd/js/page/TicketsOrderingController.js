@@ -70,18 +70,18 @@ class TicketsOrderingController {
         $.ajax({
             url: "/Page/MyOrders/",
             method: "GET",
-            success: function(data) {
+            success: function (data) {
 
                 $('#orders-table').html(data);
                 _initOrderDataTables();
-                
+
                 resolve();
             },
-            error: function(err) {  
+            error: function (err) {
                 alert(err);
 
-                reject();                
-            } 
+                reject();
+            }
         });
     }
 
@@ -126,19 +126,19 @@ class TicketsOrderingController {
 
         $('#submit-order-btn').on('click', function () {
             _this.submitOrderTicket();
-        });        
+        });
     }
 
     reloadOrderTable(isClosed) {
 
         switch (isClosed) {
             case 0:
-                _openOrderTable.ajax.reload(null, false);
-                _openOrderTable.columns.adjust();//.draw(false);
+                if (_openOrderTable) { _openOrderTable.ajax.reload(null, false); }
+                if (_openOrderTable) { _openOrderTable.columns.adjust(); }//.draw(false);
                 break;
             default:
-                _closedOrderTable.ajax.reload(null, false);
-                _closedOrderTable.columns.adjust();//.draw(false);
+                if (_closedOrderTable) { _closedOrderTable.ajax.reload(null, false); }
+                if (_closedOrderTable) { _closedOrderTable.columns.adjust(); }//.draw(false);
                 break;
         }
 
@@ -155,13 +155,29 @@ class TicketsOrderingController {
                 method: "POST",
                 data: data,
                 success: function (data) {
-                    if (data.success = true) {
+                    if (data.success == true) {
                         notificationController.create(data.message, "success");
                     } else {
                         notificationController.create(data.message, "danger");
                     }
 
-                    _this.collapseOredringBlock();
+                    let userRole = $('#userRole').val();
+                    switch (userRole) {
+                        case "ProForma Group":
+
+                            _this.collapseOredringBlock(() => {
+                                new ProFormaRequestsController().reloadAllTables();
+                            });
+                            break;
+
+                        case "Student":
+
+                            _this.ticketsOrderingController.collapseOredringBlock(() => {
+                                _this.reloadAllTables();
+                            });
+                            break;
+                    }
+
                 },
                 error: function (err) {
                     notificationController.create(err, "danger");
@@ -242,8 +258,7 @@ class TicketsOrderingController {
 
     }
 
-    collapseOredringBlock() {
-
+    collapseOredringBlock(callback) {
         /* -------------------------- */
         /* Обнуление значений в полях */
         /* -------------------------- */
@@ -260,8 +275,7 @@ class TicketsOrderingController {
         $('#price-text').text('');
         $('#month').data('datepicker').clear();
 
-        if(_openOrderTable) { _openOrderTable.ajax.reload(); }
-        if(_closedOrderTable) {_closedOrderTable.ajax.reload(); }
+        callback();
 
         // ----------------------------
 
@@ -273,6 +287,11 @@ class TicketsOrderingController {
 
         $('#select-ticket-type').show();
         $('#orders-table').show();
+    }
+
+    reloadAllTables() {
+        if (_openOrderTable) { _openOrderTable.ajax.reload(); }
+        if (_closedOrderTable) { _closedOrderTable.ajax.reload(); }
     }
 
     onChangeTicketVariations(e) {

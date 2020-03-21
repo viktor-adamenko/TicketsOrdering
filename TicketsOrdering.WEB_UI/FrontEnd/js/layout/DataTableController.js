@@ -8,7 +8,7 @@ let uaLocalization = {
     "infoPostFix":  "",
     "loadingRecords":       "Завантаження записів...",
 	"zeroRecords": "Записи відсутні.",
-	"emptyTable":   "В таблиці записи відсутнію",
+	"emptyTable":   "В таблиці записи відсутні",
     "paginate": {
         "first": "Перша",
         "previous": "Попередня",
