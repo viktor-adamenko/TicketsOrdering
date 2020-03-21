@@ -12,7 +12,7 @@ $(function() {
 
     function initUniversityGroupSelect() {
 
-        selectController.initSelect2({
+        selectController.initSelectAjax2({
             selector: "#university-group",
             placeholder: "Виберіть группу",
             ajaxUrl: "/api/GetData/GetUniversityGroups",
@@ -26,13 +26,13 @@ $(function() {
 
         initControlls() {            
 
-            selectController.initSelect2({
+            selectController.initSelectAjax2({
                 selector: "#user-role",
                 placeholder: "Виберіть роль",
                 ajaxUrl: "/api/GetData/GetRoles"
             });
 
-            selectController.initSelect2({
+            selectController.initSelectAjax2({
                 selector: "#university-faculty",
                 placeholder: "Виберіть факультет",
                 ajaxUrl: "/api/GetData/GetUniversityFaculties",

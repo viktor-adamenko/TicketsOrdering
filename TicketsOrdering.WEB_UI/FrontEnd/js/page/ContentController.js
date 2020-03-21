@@ -4,7 +4,7 @@ class ContentController {
         return $('#userId').val();
     }
 
-    initNewsBlock() {
+    initNewsBlock(resolve, reject) {
 
         let $newsBlock = $('#news-block');
         let currentUserId = this.getCurrentUserId();
@@ -14,15 +14,16 @@ class ContentController {
             data: {
                 userId: currentUserId
             },
-            success: function(data) {
+            success: function (data) {
                 $newsBlock.html(data);
 
-                let switchButtonController = new SwitchButtonController();
-                switchButtonController.init();
+                resolve();
             },
-            error: function(err) {
+            error: function (err) {
                 console.error(err);
                 alert(err);
+
+                reject();
             }
         });
 
@@ -30,10 +31,44 @@ class ContentController {
 
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
+
+    debugger;
 
     let contentController = new ContentController();
-    contentController.initNewsBlock();
-    
+    let ticketsOrderingController = new TicketsOrderingController();
+    let proFormaRequestsController = new ProFormaRequestsController();
+
+    let switchButtonController = new SwitchButtonController();
+
+
+    let newsBlock = new Promise(function (resolve, reject) {
+        contentController.initNewsBlock(resolve, reject);
+    });
+
+    let ordersBlock = new Promise(function (resolve, reject) {
+
+        let userRole = $('#userRole').val();
+        switch (userRole) {
+            case "ProForma Group":
+                proFormaRequestsController.initProFormaRequestsBlock(resolve, reject);
+                break;
+            case "Student":
+                ticketsOrderingController.initMyOrdersBlock(resolve, reject);
+                break;
+            default: 
+                reject();
+                break;
+        }
+
+    });
+
+    Promise.all([newsBlock, ordersBlock]).then(() => {
+        switchButtonController.init();
+        ticketsOrderingController.initControlls();
+    });
+
+    window.ticketsOrderingController = ticketsOrderingController;
+
 });
 

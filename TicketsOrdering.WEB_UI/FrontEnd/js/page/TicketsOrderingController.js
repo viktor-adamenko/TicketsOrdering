@@ -59,15 +59,13 @@ function _createOrderDataTable(selector, data) {
 function _initOrderDataTables() {
     _openOrderTable = _createOrderDataTable("#openedOrderList", { isCLosed: 0 });
 
-
     _closedOrderTable = _createOrderDataTable("#closedOrderList", { isCLosed: 1 });
     _closedOrderTable.columns.adjust().draw();
 }
 
 class TicketsOrderingController {
 
-    initOrderingTable() {
-        let _this = this;
+    initMyOrdersBlock(resolve, reject) {
 
         $.ajax({
             url: "/Page/MyOrders/",
@@ -75,9 +73,15 @@ class TicketsOrderingController {
             success: function(data) {
 
                 $('#orders-table').html(data);
-                _this.initControlls();
+                _initOrderDataTables();
+                
+                resolve();
+            },
+            error: function(err) {  
+                alert(err);
 
-            }
+                reject();                
+            } 
         });
     }
 
@@ -122,9 +126,7 @@ class TicketsOrderingController {
 
         $('#submit-order-btn').on('click', function () {
             _this.submitOrderTicket();
-        });
-
-        _initOrderDataTables();
+        });        
     }
 
     reloadOrderTable(isClosed) {
@@ -258,8 +260,8 @@ class TicketsOrderingController {
         $('#price-text').text('');
         $('#month').data('datepicker').clear();
 
-        _openOrderTable.ajax.reload();
-        _closedOrderTable.ajax.reload();
+        if(_openOrderTable) { _openOrderTable.ajax.reload(); }
+        if(_closedOrderTable) {_closedOrderTable.ajax.reload(); }
 
         // ----------------------------
 
@@ -349,11 +351,10 @@ class TicketsOrderingController {
 
 }
 
-$(document).ready(function () {
+// $(document).ready(function () {
 
-    let ticketsOrderingController = new TicketsOrderingController();
-    ticketsOrderingController.initOrderingTable();
+//     let ticketsOrderingController = new TicketsOrderingController();
+//     //ticketsOrderingController.initMyOrdersBlock();
+//     window.ticketsOrderingController = ticketsOrderingController;
 
-    window.ticketsOrderingController = ticketsOrderingController;
-
-})
+// })

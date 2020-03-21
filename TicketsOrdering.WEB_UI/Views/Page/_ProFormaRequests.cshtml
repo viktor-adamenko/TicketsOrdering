@@ -1,0 +1,17 @@
+﻿<div class="div-wrapper full-height">
+    <span class="wrapper-header">Заявки на замовлення проїздних</span>
+    <div class="switch-button-group">
+        <button class="primary-switch-button" selected-tab="true" data-tab-id="#openedRequestsListTab" afterShowEvent="ticketsOrderingController.reloadOrderTable(0);">Відкриті</button>
+        <button class="transparent-switch-button" selected-tab="false" data-tab-id="#closedRequestsListTab" afterShowEvent="ticketsOrderingController.reloadOrderTable(1);">Закриті</button>
+    </div>
+    <div id="openedRequestsListTab">
+        <div class="custom-table-wrapper">
+            <table id="openedRequestsList" class="custom-table" style="width: 100%"></table>
+        </div>
+    </div>
+    <div id="closedRequestsListTab" style="display: none;">
+        <div class="custom-table-wrapper">
+            <table id="closedRequestsList" class="custom-table" style="width: 100%"></table>
+        </div>
+    </div>
+</div>

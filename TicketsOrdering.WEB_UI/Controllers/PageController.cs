@@ -40,6 +40,11 @@ namespace TicketsOrdering.WEB_UI.Controllers
             return PartialView("_MyOrders");
         }
 
+        public IActionResult ProFormaRequests()
+        {
+            return PartialView("_ProFormaRequests");
+        }
+
         [HttpPost]
         public IActionResult OrderTicket(OrderTicketModel model)
         {
