@@ -31,7 +31,7 @@ class SelectController {
         }).on('select2:select', data.onChange);
     }
 
-    fillAjaxSelectData(ajaxConf, selector) {
+    fillAjaxSelectData(ajaxConf, selector, setValueNull) {
 
         let _this = this;
 
@@ -39,13 +39,13 @@ class SelectController {
             url: ajaxConf.url,
             data: ajaxConf.data,
             success: function(data) {
-                _this.fillDataToSelect(data, selector);                
+                _this.fillDataToSelect(data, selector, setValueNull);                
             }
         });
 
     }
 
-    fillDataToSelect(data, selector) {
+    fillDataToSelect(data, selector, setValueNull = true) {
 
         let $sel = $(selector);
         let $options = $sel.find('option');
@@ -76,7 +76,10 @@ class SelectController {
             $sel.append(html);
         }
 
-        $sel.val(null);
+        if(setValueNull) {
+            $sel.val(null);
+        }
+
     }
 
 }

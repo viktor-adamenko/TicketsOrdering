@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -13,6 +16,7 @@ using TicketsOrdering.Security.Entities;
 
 namespace TicketsOrdering.WEB_UI.Controllers
 {
+    //[Produces("application/json")]
     [Authorize]
     public class PageController : Controller
     {
@@ -78,6 +82,21 @@ namespace TicketsOrdering.WEB_UI.Controllers
 
             return Json(new { data = data },
                 new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+        }
+
+        [HttpPost]
+        [Produces("application/json")]
+        public IActionResult SaveChanges([FromBody] List<SaveChangesModel> saveChangesModel)
+        {
+            try
+            {
+                _requestRepository.SaveChanges(saveChangesModel);
+                return Json(new {success = true, message = "Дані були успішно збережені"});
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }            
         }
     }
 }

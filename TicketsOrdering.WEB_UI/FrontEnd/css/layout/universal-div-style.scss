@@ -61,3 +61,15 @@
 .padding-30 {
   padding: 30px;
 }
+
+.action-button {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+
+  button {
+    height: 30px !important;
+    width: 250px;
+    font-size: 16px;
+  }
+}

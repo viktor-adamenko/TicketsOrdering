@@ -21,6 +21,27 @@
     background-color:  lighten($primary-color, $pressed-lighten);
 }
 
+.mint-button {
+    outline: none;
+    border: none;
+    background-color: $mint-color;
+    color: white;
+    padding: 0 20px;
+    height: 45px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 400;
+    box-shadow: 0px 2px 0px rgba(51, 164, 164, 0.25);
+}
+
+.mint-button:hover{
+    background-color:  darken($mint-color, $hover-darken);
+}
+
+.mint-button:active{
+    background-color:  lighten($mint-color, $pressed-lighten);
+}
+
 .back-button {
     display: flex;
     font-size: 24px;

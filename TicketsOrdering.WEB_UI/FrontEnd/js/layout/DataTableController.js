@@ -23,6 +23,10 @@ let uaLocalization = {
 
 class DataTableController {
 
+    uaLocalization() {
+        return uaLocalization;
+    }
+
     create(config) {
 
         let table = $(config.selector).DataTable({
@@ -31,7 +35,7 @@ class DataTableController {
             language: uaLocalization,
             pageLength: config.pageLenght,
             columns: config.columns,
-            ajax: config.ajax
+            ajax: config.ajax             
         });
 
         let _parent = $(config.selector).parent();

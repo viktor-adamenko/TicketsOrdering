@@ -66,5 +66,13 @@ namespace TicketsOrdering.WEB_UI.Controllers
             var model = _selectorRepository.GetTicketVariations(ticketTypeId, countOfTrips).Select(s => new { id = s.TicketVariationId, text = s.Description, price = s.Price });
             return Json(model);
         }
+
+        [HttpGet]
+        [Route("GetRequestStates")]
+        public IActionResult GetRequestStates()
+        {
+            var model = _selectorRepository.GetRequestStates().Select(s => new { id = s.Id, text = s.Name});
+            return Json(model);
+        }
     }
 }

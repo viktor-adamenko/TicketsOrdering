@@ -122,5 +122,17 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
                 return conn.Query<PaymentMethod>(query);
             }
         }
+
+        public IEnumerable<RequestState> GetRequestStates()
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string query = @"SELECT Id
+                                        ,Name
+                                 FROM RequestState";
+
+                return conn.Query<RequestState>(query);
+            }
+        }
     }
 }
