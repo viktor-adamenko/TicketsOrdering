@@ -42,7 +42,7 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
                                     LEFT JOIN UniversityGroup ug
                                       ON ug.Id = u.UniversityGroupId
 
-                                    WHERE ug.Id = @UniversityGroupId and rs.IsClosed = @IsClosed";
+                                    WHERE ug.Id = @UniversityGroupId and rs.IsClosed = @IsClosed AND rs.Id NOT IN (5, 6)";
 
                 return con.Query<Order>(sqlQuery, new
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using Dapper;
@@ -20,9 +21,7 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
-                string sqlQuery = @"DECLARE @Price MONEY = (SELECT TOP 1 Price FROM TicketVariation tv WHERE tv.Id = @TicketVariationId)
-                                    INSERT INTO Request (UserId, TicketVariationId, RequestStateId, PaymentMethodId, Month, Price)
-                                    VALUES (@UserId, @TicketVariationId, 1, @PaymentMethodId, @Month, @Price);";
+                string sqlQuery = @"OrderTicket";
 
                 con.Execute(sqlQuery, new
                 {
@@ -30,7 +29,7 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
                     TicketVariationId = orderTicketModel.TicketVariationId,
                     PaymentMethodId = orderTicketModel.PaymentMethodId,
                     Month = orderTicketModel.Month
-                });
+                }, commandType: CommandType.StoredProcedure);
             }
         }
 
@@ -38,32 +37,13 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
-                string sqlQuery = @"SELECT
-                                        r.Id
-                                         ,tv.Description TicketVariation
-                                         ,CASE 
-                                            WHEN tv.CountOfTrips = 999 THEN 'Не обмежено'
-                                            ELSE CAST(tv.CountOfTrips AS VARCHAR)
-                                          END CountOfTrips
-                                         ,r.Price
-                                          ,dbo.DateTimeToMonthUa(r.Month) Month
-                                         ,u.FullName UserName
-                                         ,rs.Id RequestStateId
-                                         ,rs.Name RequestState
-                                    FROM Request r
-                                    LEFT JOIN TicketVariation tv
-                                      ON tv.Id = r.TicketVariationId
-                                    LEFT JOIN [User] u
-                                      ON r.UserId = u.Id
-                                     LEFT JOIN RequestState rs 
-                                      ON rs.Id = r.RequestStateId
-                                     WHERE u.Id = @UserId and rs.IsClosed = @IsClosed";
+                string sqlQuery = @"GetOrdersByUser";
 
                 return con.Query<Order>(sqlQuery, new
                 {
                     UserId = userId,
                     IsClosed = isClosed
-                });
+                }, commandType: CommandType.StoredProcedure);
             }
         }
     }

@@ -25,12 +25,14 @@ namespace TicketsOrdering.WEB_UI.Controllers
         private readonly IOrderRepository _orderRepository;
         private readonly IRequestRepository _requestRepository;
         private readonly ISelectorRepository _selectorRepository;
+        private readonly IReportRepository _reportRepository;
 
-        public PageController(IOrderRepository orderRepository, ISelectorRepository selectorRepository, IRequestRepository requestRepository)
+        public PageController(IOrderRepository orderRepository, ISelectorRepository selectorRepository, IRequestRepository requestRepository, IReportRepository reportRepository)
         {
             _orderRepository = orderRepository;
             _requestRepository = requestRepository;
             _selectorRepository = selectorRepository;
+            _reportRepository = reportRepository;
         }
 
         public IActionResult Index()
@@ -49,6 +51,11 @@ namespace TicketsOrdering.WEB_UI.Controllers
         public IActionResult ProFormaRequests()
         {
             return PartialView("_ProFormaRequests");
+        }
+
+        public IActionResult ProFormaUniversityReports()
+        {
+            return PartialView("_ProFormaUniversityReports");
         }
 
         [HttpPost]
@@ -97,6 +104,26 @@ namespace TicketsOrdering.WEB_UI.Controllers
             {
                 return Json(new { success = false, message = ex.Message });
             }            
+        }
+
+        public IActionResult CreateReport()
+        {
+            try
+            {
+                _reportRepository.CreateReport(UserClaims.User.UniversityGroupId);
+                return Json(new {success = true, message = "Дані збережені успішно!"});
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }            
+        }
+
+        public IActionResult GetReportsByFaculty()
+        {
+            var data = _reportRepository.GetReportsByFaculty(UserClaims.User.UniversityFacultyId);
+
+            return Json(data, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
         }
     }
 }

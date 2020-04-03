@@ -42,6 +42,7 @@ namespace TicketsOrdering.WEB_UI
             services.AddTransient<ISelectorRepository>(s => new SelectorRepository(connString));
             services.AddTransient<IOrderRepository>(s => new OrderRepository(connString));
             services.AddTransient<IRequestRepository>(s => new RequestRepository(connString));
+            services.AddTransient<IReportRepository>(s => new ReportRepository(connString));
 
             services.AddTransient<ISecurityManager, SecurityManager>();
         }

@@ -167,7 +167,30 @@ class ProFormaRequestsController {
                 reject();
 
             }
-        })
+        });
+    }
+
+    createReport() {
+        let _this = this;
+
+        $.ajax({
+            url: "/Page/CreateReport/",
+            method: "GET",
+            success: function (data) {
+
+                if(data.success == true) {
+                    _this.reloadAllTables();
+
+                    notification.create(data.message, "success");
+                } else {
+                    notification.create(data.message, "danger");
+                }
+
+            },
+            error: function (err) {
+                notification.create(data.message, "Что-то пошло не так");
+            }
+        });
     }
 
     initDataTablesOrderRequests() {
@@ -225,7 +248,6 @@ class ProFormaRequestsController {
             data: JSON.stringify(data),
             success: function (data) {
 
-                debugger
                 if(data.success == true) {
                     _this.reloadAllTables();
                     $('#save-changes-btn').css('visibility', 'hidden');

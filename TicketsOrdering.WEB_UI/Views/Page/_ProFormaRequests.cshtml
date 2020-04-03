@@ -2,6 +2,7 @@
     <span class="wrapper-header">Заявки на замовлення проїздних</span>
     <div class="switch-button-group">
         <button class="primary-switch-button" selected-tab="true" data-tab-id="#openedRequestsListTab" afterShowEvent="proFormaRequestsController.reloadRequestsTable(0);">Відкриті</button>
+        <button class="transparent-switch-button" selected-tab="false" data-tab-id="#sentRequestsListTab" afterShowEvent="">Замовлення</button>
         <button class="transparent-switch-button" selected-tab="false" data-tab-id="#closedRequestsListTab" afterShowEvent="proFormaRequestsController.reloadRequestsTable(1);">Закриті</button>
     </div>
     <div id="openedRequestsListTab">
@@ -10,7 +11,12 @@
         </div>
         <div class="action-button">
             <button class="success-button" id="save-changes-btn" style="visibility: hidden" onclick="proFormaRequestsController.saveChanges()">Зберегти зміни</button>
-            <button class="mint-button" id="send-rep-btn">Надіслати звіт</button>
+            <button class="mint-button" id="send-rep-btn" onclick="proFormaRequestsController.createReport()">Надіслати звіт</button>
+        </div>
+    </div>
+    <div id="sentRequestsListTab" style="display: none;">
+        <div class="custom-table-wrapper">
+            <table id="sentRequestsList" class="custom-table" style="width: 100%"></table>
         </div>
     </div>
     <div id="closedRequestsListTab" style="display: none;">

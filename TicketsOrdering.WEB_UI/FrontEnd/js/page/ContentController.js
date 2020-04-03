@@ -44,6 +44,7 @@ $(document).ready(function () {
     let contentController = new ContentController();
     let ticketsOrderingController = new TicketsOrderingController();
     let proFormaRequestsController = new ProFormaRequestsController();
+    let proFormaReportsController = new ProFormaReportsController();
 
     let switchButtonController = new SwitchButtonController();
 
@@ -75,6 +76,10 @@ $(document).ready(function () {
                     });
                 }); 
 
+                break;
+
+            case "ProForma University":
+                proFormaReportsController.initReportBlock(resolve, reject);
                 break;
             default: 
                 reject();
