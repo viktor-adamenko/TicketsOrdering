@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "ViewProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var userClaims = (ViewBag.UserClaims as UserClaims) ?? new UserClaims();
+}
+@using TicketsOrdering.Security.Entities
+@model TicketsOrdering.DataAccess.Models.User
+<div class="div-wrapper">
+    <div class="form-content">
+
+        <div class="flex-row view-profile">
+            <div class="form-item">
+                <span class="label-text">Логін користувача</span>
+                <input class="form-input" value="@Model.UserLogin" disabled />
+            </div>
+            <div class="form-item">
+                <span class="label-text">ПІБ користувача</span>
+                <input class="form-input" value="@Model.FullName" disabled />
+            </div>
+        </div>
+        <div class="flex-row view-profile">
+            <div class="form-item">
+                <span class="label-text">Факультет</span>
+                <input class="form-input" value="@Model.UniversityFacultyName" disabled />
+            </div>
+
+            <div class="form-item">
+                <span class="label-text">Група</span>
+                <input class="form-input" value="@Model.UniversityGroupName" disabled />
+            </div>
+
+            <div class="form-item">
+                <span class="label-text">Роль у додатку</span>
+                <input class="form-input" value="@Model.RoleNameUa" disabled />
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    (function () {
+
+        var $linkButton = $('.link-button');
+        var $parent = $linkButton.parent();
+
+        $linkButton.remove();
+
+        var $newButton = $('<button class="link-button">На головну</button>');
+        $newButton.on('click',
+            function () {
+                window.location = "/Page/";
+            });
+
+        $parent.prepend($newButton);
+
+    })();
+</script>

@@ -29,6 +29,16 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
             }
         }
 
+        public void ToIssueTickets(int universityGroupId)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                var query = "dbo.ToIssueTickets";
+
+                con.Execute(query, new { UniversityGroupId = universityGroupId }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
         public IEnumerable<GroupedReportModel> GetReportsByFaculty(int universityFacultyId)
         {
             List<GroupedReportModel> groupedReportModels = new List<GroupedReportModel>();

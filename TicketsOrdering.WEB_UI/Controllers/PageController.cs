@@ -43,6 +43,13 @@ namespace TicketsOrdering.WEB_UI.Controllers
             return View();
         }
 
+        public IActionResult ViewProfile()
+        {
+            ViewBag.UserClaims = UserClaims;
+            return View("ViewProfile", UserClaims.User);
+        }
+
+
         public IActionResult MyOrders()
         {
             return PartialView("_MyOrders");
@@ -83,9 +90,9 @@ namespace TicketsOrdering.WEB_UI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetRequestOrdersByUniversityGroup(int isClosed)
+        public IActionResult GetRequestOrdersByUniversityGroup(int isClosed, int isSentOrder = 0)
         {
-            var data = _requestRepository.GetOrderRequestByUniversityGroup(UserClaims.User.UniversityGroupId, isClosed);
+            var data = _requestRepository.GetOrderRequestByUniversityGroup(UserClaims.User.UniversityGroupId, isClosed, isSentOrder);
 
             return Json(new { data = data },
                 new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
@@ -124,6 +131,20 @@ namespace TicketsOrdering.WEB_UI.Controllers
             var data = _reportRepository.GetReportsByFaculty(UserClaims.User.UniversityFacultyId);
 
             return Json(data, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
+        }
+
+        [HttpPost]
+        public IActionResult ToIssueTickets(int universityGroupId)
+        {
+            try
+            {
+                _reportRepository.ToIssueTickets(universityGroupId);
+                return Json(new { success = true, message = "Дані збережені успішно!" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
     }
 }

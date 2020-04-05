@@ -80,6 +80,11 @@ $(document).ready(function () {
 
             case "ProForma University":
                 proFormaReportsController.initReportBlock(resolve, reject);
+                _initCancelOrderingButton(() => {
+                    ticketsOrderingController.collapseOredringBlock(() => {
+                        proFormaReportsController.initReportBlock();
+                    });
+                });
                 break;
             default: 
                 reject();

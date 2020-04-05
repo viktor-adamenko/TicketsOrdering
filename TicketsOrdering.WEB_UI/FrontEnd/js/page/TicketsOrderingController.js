@@ -172,10 +172,18 @@ class TicketsOrderingController {
 
                         case "Student":
 
-                            _this.ticketsOrderingController.collapseOredringBlock(() => {
+                            _this.collapseOredringBlock(() => {
                                 _this.reloadAllTables();
                             });
                             break;
+                        
+                        case "ProForma University":
+
+                            _this.collapseOredringBlock(() => {
+                                new ProFormaReportsController().initReportBlock();
+                            });
+
+                        break;
                     }
 
                 },

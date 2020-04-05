@@ -15,5 +15,6 @@ namespace TicketsOrdering.DataAccess.Repository.Abstract
         IEnumerable<TicketVariation> GetTicketVariations(int ticketTypeId, int countOfTrips);
         IEnumerable<PaymentMethod> GetPaymentMethods();
         IEnumerable<RequestState> GetRequestStates();
+        IEnumerable<RequestState> GetRequestStatesToIssue();
     }
 }

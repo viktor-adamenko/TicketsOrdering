@@ -27,8 +27,8 @@
             <small class="welcome-text">Ласкаво просимо, @userClaims.User.FullName</small>
         </div>
         <div class="header-part">
-            <button class="link-button">
-                Редагувити профіль
+            <button class="link-button" onclick="window.location = '/Page/ViewProfile/'">
+                Переглянути профіль
             </button>
             <button class="danger-button" id="logout-button" onclick="window.location.href = '@Url.Action("Logout", "Account")'">
                 Вихід

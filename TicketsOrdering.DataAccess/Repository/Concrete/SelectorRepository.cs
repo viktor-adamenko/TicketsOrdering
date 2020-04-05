@@ -129,7 +129,19 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
             {
                 string query = @"SELECT Id
                                         ,Name
-                                 FROM RequestState WHERE Id NOT IN (5, 6)";
+                                 FROM RequestState WHERE Id NOT IN (5, 6, 3)";
+
+                return conn.Query<RequestState>(query);
+            }
+        }
+
+        public IEnumerable<RequestState> GetRequestStatesToIssue()
+        {
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string query = @"SELECT Id
+                                        ,Name
+                                 FROM RequestState WHERE Id IN (6, 3, 4)";
 
                 return conn.Query<RequestState>(query);
             }

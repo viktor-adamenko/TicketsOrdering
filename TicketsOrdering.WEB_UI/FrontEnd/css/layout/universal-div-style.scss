@@ -73,3 +73,22 @@
     font-size: 16px;
   }
 }
+
+.flex-row.view-profile {
+
+  &:first-child {
+    margin-top: -20px;
+  }
+
+  .form-item {
+
+    width: 100%;
+    margin-right: 30px;
+
+    &:last-child {
+
+      margin-right: 0;
+
+    }
+  }
+}

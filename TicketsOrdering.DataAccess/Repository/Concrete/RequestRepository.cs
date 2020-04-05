@@ -16,11 +16,14 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
             _connectionString = connectionString;
         }
 
-        public IEnumerable<Order> GetOrderRequestByUniversityGroup(int universityGroupId, int isClosed)
+        public IEnumerable<Order> GetOrderRequestByUniversityGroup(int universityGroupId, int isClosed, int isSentOrder = 0)
         {
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
-                string sqlQuery = @"SELECT
+                string additionalWhere =
+                    isSentOrder == 1 ? " rs.Id IN (6) " : " rs.Id NOT IN (5, 6) ";
+
+                string sqlQuery = $@"SELECT
                                       r.Id
                                      ,tv.Description TicketVariation
                                      ,CASE
@@ -42,7 +45,7 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
                                     LEFT JOIN UniversityGroup ug
                                       ON ug.Id = u.UniversityGroupId
 
-                                    WHERE ug.Id = @UniversityGroupId and rs.IsClosed = @IsClosed AND rs.Id NOT IN (5, 6)";
+                                    WHERE ug.Id = @UniversityGroupId and rs.IsClosed = @IsClosed AND {additionalWhere}";
 
                 return con.Query<Order>(sqlQuery, new
                 {

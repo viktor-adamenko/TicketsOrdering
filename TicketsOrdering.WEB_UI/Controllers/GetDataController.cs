@@ -74,5 +74,14 @@ namespace TicketsOrdering.WEB_UI.Controllers
             var model = _selectorRepository.GetRequestStates().Select(s => new { id = s.Id, text = s.Name});
             return Json(model);
         }
+
+        [HttpGet]
+        [Route("GetRequestStatesToIssue")]
+        public IActionResult GetRequestStatesToIssue()
+        {
+            var model = _selectorRepository.GetRequestStatesToIssue().Select(s => new { id = s.Id, text = s.Name });
+            return Json(model);
+        }
+        
     }
 }

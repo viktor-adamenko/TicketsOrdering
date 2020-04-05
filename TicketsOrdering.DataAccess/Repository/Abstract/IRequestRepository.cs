@@ -7,7 +7,7 @@ namespace TicketsOrdering.DataAccess.Repository.Abstract
 {
     public interface IRequestRepository
     {
-        IEnumerable<Order> GetOrderRequestByUniversityGroup(int universityGroupId, int isClosed);
+        IEnumerable<Order> GetOrderRequestByUniversityGroup(int universityGroupId, int isClosed, int isSentOrder = 0);
         void SaveChanges(List<SaveChangesModel> saveChangesModel);
     }
 }

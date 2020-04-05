@@ -1,29 +1,75 @@
 let _openRequestTable;
 let _closedRequestTable;
+let _toIssueRequestsTable;
 
 let _requestStates;
+let _requestStatesToIssue;
 
 let requestOrderTable = new DataTableController();
 let notification = new NotificationController();
 
-function _getRequestStates(callback) {
-    $.ajax({
-        url: "/api/GetData/GetRequestStates/",
-        success: function (data) {
-            _requestStates = data;
-            callback();
-        }
-    });
+function _getRequestStates(callback, isSentOrder) {
+    if (isSentOrder == 0) {
+        $.ajax({
+            url: "/api/GetData/GetRequestStates/",
+            success: function (data) {
+                _requestStates = data;
+                callback();
+            }
+        });
+    }
+    else {
+        $.ajax({
+            url: "/api/GetData/GetRequestStatesToIssue/",
+            success: function (data) {
+                _requestStatesToIssue = data;
+                callback();
+            }
+        });
+    }
+    
 }
 
 function initSelectOnChangeEvent() {
-    let $selects = $('.sel-request-state');
+    let $selects = $('#openedRequestsListTab .sel-request-state');
     $selects.each(function () {
         $(this).unbind();
 
         $(this).on('change', function () {
 
             $('#save-changes-btn').css('visibility', 'visible');
+
+        });
+    });
+}
+
+function _getIssueDataSaveChanges() {
+    let data = [];
+    let selects = $('#sentRequestsListTab .sel-request-state');
+    for (let i = 0; i < selects.length; i++) {
+
+        let requestId = $(selects[i]).attr('id');
+        let requestStateId = $(selects[i]).val();
+
+        if(requestStateId != 6 && requestStateId != null) {
+            data.push({
+                RequestId: requestId,
+                RequestStateId: requestStateId
+            });
+        }
+    }
+
+    return data;
+}
+
+function _initIssueSelectOnChangeEvent() {
+    let $selects = $('#sentRequestsListTab .sel-request-state');
+    $selects.each(function () {
+        $(this).unbind();
+
+        $(this).on('change', function () {
+
+            $('#save-issue-changes-btn').css('visibility', 'visible');
 
         });
     });
@@ -108,11 +154,12 @@ function _createEditableRequestDataTable(selector, data, initComplete) {
             data: data
         },
         initComplete: function (settings, json) {
-            _getRequestStates(initComplete);
+            _getRequestStates(initComplete, data.isSentOrder);
         },
         drawCallback: function (settings) {
             initComplete();
             initSelectOnChangeEvent();
+            _initIssueSelectOnChangeEvent();
         }
     });
 
@@ -131,7 +178,7 @@ function _createEditableRequestDataTable(selector, data, initComplete) {
 
 function _getDataSaveChanges() {
     let data = [];
-    let selects = $('.sel-request-state');
+    let selects = $('#openedRequestsListTab .sel-request-state');
     for (let i = 0; i < selects.length; i++) {
         let requestId = $(selects[i]).attr('id');
         let requestStateId = $(selects[i]).val();
@@ -194,13 +241,14 @@ class ProFormaRequestsController {
     }
 
     initDataTablesOrderRequests() {
-        _openRequestTable = _createEditableRequestDataTable("#openedRequestsList", { isCLosed: 0 }, this.initSelect2RequestStates);
-        _closedRequestTable = _createRequestDataTable("#closedRequestsList", { isCLosed: 1 });
+        _openRequestTable = _createEditableRequestDataTable("#openedRequestsList", { isCLosed: 0, isSentOrder: 0 }, this.initSelect2RequestStates);
+        _closedRequestTable = _createRequestDataTable("#closedRequestsList", { isCLosed: 1, isSentOrder: 0 });
+        _toIssueRequestsTable = _createEditableRequestDataTable("#toIssueRequestsList", { isCLosed: 0, isSentOrder: 1 }, this.initSelectRequestStatesToIssue);
     }
 
     initSelect2RequestStates() {
 
-        let $options = $('.sel-request-state');
+        let $options = $('#openedRequestsListTab .sel-request-state');
         $options.each(function (i, e) {
 
             let optionsCount = $(this).has('option').length;
@@ -215,9 +263,27 @@ class ProFormaRequestsController {
         });
     }
 
+    initSelectRequestStatesToIssue() {
+
+        let $options = $('#toIssueRequestsList .sel-request-state');
+        $options.each(function (i, e) {
+
+            let optionsCount = $(this).has('option').length;
+
+            if (optionsCount < 1) {
+
+                selectController.fillDataToSelect(_requestStatesToIssue, $(this), false);
+                let val = $(this).attr('value');
+                $(this).val(val);
+            }
+
+        });
+    }
+
     reloadAllTables() {
         _openRequestTable.ajax.reload(null, false);
         _closedRequestTable.ajax.reload(null, false);
+        _toIssueRequestsTable.ajax.reload(null, false);
     }
 
     reloadRequestsTable(isClosed) {
@@ -227,6 +293,12 @@ class ProFormaRequestsController {
                 _openRequestTable.ajax.reload(null, false);
                 _openRequestTable.columns.adjust();
                 break;
+
+            case 2: 
+                _toIssueRequestsTable.ajax.reload(null, false);
+                _toIssueRequestsTable.columns.adjust();
+                break;
+
             default:
                 _closedRequestTable.ajax.reload(null, false);
                 _closedRequestTable.columns.adjust();
@@ -235,7 +307,6 @@ class ProFormaRequestsController {
     }
 
     saveChanges() {
-        debugger;
         let _this = this;
 
         let data = _getDataSaveChanges();
@@ -259,6 +330,34 @@ class ProFormaRequestsController {
 
             }
 
+        });
+
+    }
+
+    saveIssueChanges() {
+        debugger;
+        let _this = this;
+
+        let data = _getIssueDataSaveChanges();
+
+        $.ajax({
+            type: "POST",
+            url: "/Page/SaveChanges",
+            contentType: "application/json",
+            dataType: 'json',                    
+            data: JSON.stringify(data),
+            success: function (data) {
+
+                if(data.success == true) {
+                    _this.reloadAllTables();
+                    $('#save-issue-changes-btn').css('visibility', 'hidden');
+
+                    notif.create(data.message, "success");
+                } else {
+                    notif.create(data.message, "danger");
+                }
+
+            }
         });
 
     }

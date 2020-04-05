@@ -52,9 +52,9 @@
                                 <div><input type="radio" value="@el.Id" id="payment-method-@el.Id" name="payment-method" @(el.Id == 1 ? "checked" : string.Empty) /> <label for="payment-method-@el.Id">@el.Description</label></div>
                             }
                         </div>
-                        <span id="card-payment-method" style="display: none">
+                        @*<span id="card-payment-method" style="display: none">
                             <span>Номер картки профорга групи: </span> <span id="card-number">5032 3209 1892 4856</span>
-                        </span>
+                        </span>*@
                     </div>
 
                     <div id="student-ticket-form">
