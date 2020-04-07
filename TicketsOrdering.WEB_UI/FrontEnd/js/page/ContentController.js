@@ -34,12 +34,11 @@ class ContentController {
         });
 
     }
-
-
-
 }
 
 $(document).ready(function () {
+
+    let newsController = new NewsController();
 
     let contentController = new ContentController();
     let ticketsOrderingController = new TicketsOrderingController();
@@ -96,10 +95,13 @@ $(document).ready(function () {
     Promise.all([newsBlock, ordersBlock]).then(() => {
         switchButtonController.init();
         ticketsOrderingController.initControlls();
+
+        newsController.initListNews(false);
     });
 
     window.ticketsOrderingController = ticketsOrderingController;
     window.proFormaRequestsController = proFormaRequestsController;
+    window.newsController = newsController;
 
 });
 
