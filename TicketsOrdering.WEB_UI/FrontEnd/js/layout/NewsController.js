@@ -19,11 +19,42 @@ class NewsController {
 
     }    
 
+    addNews() {
+
+        $('.news-container').hide();
+        $('#addNewsContent').show();
+        $('#addNewsButton').css('visibility', 'hidden');
+
+        $('#newsTitle').val('');
+        $('#newsBody').val('');
+        
+    }    
+
+    cancelAddNews() {
+
+        $('.news-container').show();
+        $('#addNewsContent').hide();
+        $('#addNewsButton').css('visibility', 'visible');
+
+    }    
+
     createListItem(data) {
+        let _this = this;
 
         let $li = $('<li class="news-item"></li>');
-        $li.attr('read', data.isRead);
-        $li.attr('data-news-id', data.Id);
+        $li.attr('read', data.isRead);        
+        $li.attr('data-news-id', data.id);
+
+        if (!data.isRead) {
+
+            $li.on('dblclick', function() {            
+                let userId = $('#userId').val();
+                let newsId = $(this).data('news-id');            
+    
+                _this.readNews(userId, newsId);
+            });
+
+        }     
 
         let htmlTemplate = `<div class="news-item-header">
                             <span class="news-item-caption">
@@ -110,6 +141,63 @@ class NewsController {
             }
         });
 
+    }
+
+    readNews(userId, newsId) {        
+
+        $.ajax({
+            url: "/News/ReadNews",
+            type: "POST",
+            data: {
+                userId: userId, 
+                newsId: newsId
+            },
+            success: function(data) {
+
+                $(`li[data-news-id="${newsId}"]`).remove();
+
+            }
+        })
+
+    }
+
+    saveNews() {
+        let _this = this;
+
+        let userId = $('#userId').val();
+        let newsTitle = $('#newsTitle').val();
+        let newsBody = $('#newsBody').val();        
+
+        if(newsTitle == '' || newsBody == '') {
+            notif.create('Не все заповнено...', 'danger');
+        } else {
+
+            $.ajax({
+                url: "/News/AddNews/",
+                type: "POST",
+                data: { 
+                    userId: userId,
+                    newsTitle: newsTitle,
+                    body: newsBody
+                }, 
+                success: function(data) {
+                    if(data.success) {
+                        notif.create(data.message, 'success');
+
+                        $('.news-container').show();
+                        $('#addNewsContent').hide();
+                        $('#addNewsButton').css('visibility', 'visible');
+
+                        _this.initListNews(false);
+
+                    } else {
+                        notif.create(data.message, 'danger');
+                    }
+                }
+            })
+
+        }
+        
     }
 
 }

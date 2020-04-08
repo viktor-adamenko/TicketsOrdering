@@ -3,106 +3,38 @@
 }
 
 <div class="div-wrapper full-height">
-    <span class="wrapper-header">Новини</span>
+    <span class="wrapper-header">
+        <span style="flex: 1; margin-right: -29px">Новини</span>        
+        <button id="addNewsButton" style="visibility: hidden" onclick="newsController.addNews()">
+            <i class="far fa-plus-square"></i>
+        </button>
+    </span>
     <div class="news-container">
         <div class="switch-button-group">
-            <button class="primary-switch-button" selected-tab="true" data-tab-id="#notReadNewsTab" afterShowEvent="newsController.initListNews(false);">Не прочитані</button>
+            <button class="primary-switch-button" selected-tab="true" data-tab-id="#notReadNewsTab" afterShowEvent="newsController.initListNews(false);">Непрочитані</button>
             <button class="transparent-switch-button" selected-tab="false" data-tab-id="#readNewsTab" afterShowEvent="newsController.initListNews(true);">Прочитані</button>
         </div>
 
-        <div class="tab-content--pushed">
-
-            <div id="notReadNewsTab">
-                @*<ul class="news-list">
-                    <li class="news-item" read="false" selected>
-                        <div class="news-item-header">
-                            <span class="news-item-caption">
-                                Зміна ціни на проїздні
-                            </span>
-                            <div class="news-item-info">
-                                <span class="news-item-date">
-                                    2020.01.29 11:15
-                                </span> •
-                                <span class="news-item-author">
-                                    Адаменко Віктор
-                                </span>
-                            </div>
-                        </div>
-                        <div class="news-item-content">
-                            У Києві з 1 квітня зміниться вартість проїзних квитків.
-                            Тариф на одну поїздку на автобусі, трамваї, тролейбусі,
-                            фунікулері, метрополітені, міській електричці - 10 гривень.
-                        </div>
-                    </li>
-
-                    <li class="news-item" read="false">
-                        <div class="news-item-header">
-                            <span class="news-item-caption">
-                                Зміна ціни на проїздні
-                            </span>
-                            <div class="news-item-info">
-                                <span class="news-item-date">
-                                    2020.01.29 11:15
-                                </span> •
-                                <span class="news-item-author">
-                                    Адаменко Віктор
-                                </span>
-                            </div>
-                        </div>
-                        <div class="news-item-content">
-                            У Києві з 1 квітня зміниться вартість проїзних квитків.
-                            Тариф на одну поїздку на автобусі, трамваї, тролейбусі,
-                            фунікулері, метрополітені, міській електричці - 10 гривень.
-                        </div>
-                    </li>
-                </ul>*@
-            </div>
-            <div id="readNewsTab" style="display: none;">
-                @*<ul class="news-list">
-                    <li class="news-item" read="true">
-                        <div class="news-item-header">
-                            <span class="news-item-caption">
-                                Зміна ціни на проїздні
-                            </span>
-                            <div class="news-item-info">
-                                <span class="news-item-date">
-                                    2020.01.29 11:15
-                                </span> •
-                                <span class="news-item-author">
-                                    Адаменко Віктор
-                                </span>
-                            </div>
-                        </div>
-                        <div class="news-item-content">
-
-                            У Києві з 1 квітня зміниться вартість проїзних квитків.
-                            Тариф на одну поїздку на автобусі, трамваї, тролейбусі,
-                            фунікулері, метрополітені, міській електричці - 10 гривень.
-                        </div>
-                    </li>
-                    <li class="news-item" read="true" selected>
-                        <div class="news-item-header">
-                            <span class="news-item-caption">
-                                Зміна ціни на проїздні
-                            </span>
-                            <div class="news-item-info">
-                                <span class="news-item-date">
-                                    2020.01.29 11:15
-                                </span> •
-                                <span class="news-item-author">
-                                    Адаменко Віктор
-                                </span>
-                            </div>
-                        </div>
-                        <div class="news-item-content">
-                            У Києві з 1 квітня зміниться вартість проїзних квитків.
-                            Тариф на одну поїздку на автобусі, трамваї, тролейбусі,
-                            фунікулері, метрополітені, міській електричці - 10 гривень.
-                        </div>
-                    </li>
-                </ul>*@
-            </div>
-
-        </div>
+        <div class="tab-content--pushed" id="newsListContent">
+            <div id="notReadNewsTab"></div>
+            <div id="readNewsTab" style="display: none;"></div>
+        </div>       
+    </div>
+    
+    <div id="addNewsContent" style="display: none">
+        <ul class="news-list">
+            <li class="news-item">
+                <div class="news-item-header">
+                    <input id="newsTitle" placeholder="Заголовок..."/>
+                </div>
+                <div class="news-item-content">
+                    <textarea id="newsBody" placeholder="Пишіть тут..."></textarea>
+                </div>
+            </li>
+        </ul>
+        <div>
+            <button id="cancelNewsButton" class="danger-button" onclick="newsController.cancelAddNews()">Скасувати</button>
+            <button id="saveNewsButton" class="success-button" onclick="newsController.saveNews()">Зберегти</button>
+        </div>            
     </div>
 </div>

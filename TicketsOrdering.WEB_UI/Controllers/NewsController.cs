@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using TicketsOrdering.DataAccess.Models;
 using TicketsOrdering.DataAccess.Repository.Abstract;
 using TicketsOrdering.DataAccess.Repository.Concrete;
 
@@ -23,14 +24,26 @@ namespace TicketsOrdering.WEB_UI.Controllers
             return PartialView("NewsBlock");
         }
 
-        public IActionResult AddNews()
+        [HttpPost]
+        public IActionResult AddNews(CreateNewsModel createNewsModel)
         {
-            return null;
+            try
+            {
+                _newsRepository.AddNews(createNewsModel);
+
+                return Json(new { success = true, message = "Дані були успішно збережені" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
 
         public IActionResult ReadNews(int userId, int newsId)
         {
-            return null;
+            _newsRepository.ReadNews(userId, newsId);
+
+            return Json(new { success = true });
         }        
 
         public IActionResult GetReadNews(int userId)

@@ -97,6 +97,11 @@ $(document).ready(function () {
         ticketsOrderingController.initControlls();
 
         newsController.initListNews(false);
+
+        let userRole = $('#userRole').val();
+        if(userRole != "Student") {
+            $('#addNewsButton').css('visibility', 'visible');
+        }
     });
 
     window.ticketsOrderingController = ticketsOrderingController;

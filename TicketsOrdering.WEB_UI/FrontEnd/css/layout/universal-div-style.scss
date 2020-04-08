@@ -38,6 +38,7 @@
   padding: 20px;
 
   .wrapper-header {
+    justify-content: center;
     display: flex;
     width: 100%;
 
@@ -54,7 +55,8 @@
   span.wrapper-header {
     font-size: 22px;
     text-align: center;
-    display: block;
+    display: flex;
+    justify-content: center;
   }
 }
 

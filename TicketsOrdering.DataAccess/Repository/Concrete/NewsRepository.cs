@@ -29,7 +29,22 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
 
         public void ReadNews(int userId, int newsId)
         {
-            throw new NotImplementedException();
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                var query = "ReadNewsByUser";
+
+                con.Execute(query, new { UserId = userId, NewsId = newsId }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public void AddNews(CreateNewsModel createNewsModel)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                var query = "INSERT INTO News (CreatedBy, Title, Body) VALUES (@UserId, @NewsTitle, @Body)";
+
+                con.Execute(query, new { UserId = createNewsModel.UserId, NewsTitle = createNewsModel.NewsTitle, Body = createNewsModel.Body });
+            }
         }
     }
 }
