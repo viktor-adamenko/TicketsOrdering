@@ -106,6 +106,7 @@ $(document).ready(function () {
 
     window.ticketsOrderingController = ticketsOrderingController;
     window.proFormaRequestsController = proFormaRequestsController;
+    window.proFormaReportsController = proFormaReportsController;
     window.newsController = newsController;
 
 });

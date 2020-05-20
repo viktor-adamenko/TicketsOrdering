@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using Dapper;
 using TicketsOrdering.DataAccess.Models;
@@ -44,6 +45,27 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
                     UserId = userId,
                     IsClosed = isClosed
                 }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public bool CheckTicketOrderingByMonth(int userId, DateTime? month)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                string sqlQuery = @"SELECT TOP 1 Id
+                                    FROM dbo.Request
+                                     WHERE UserId = @UserId AND Month = @Month";
+
+                var result =  con.Query<int>(sqlQuery, new
+                {
+                    UserId = userId,
+                    Month = month
+                });
+
+                if (result.Count() == 1)                
+                    return false;                
+
+                return true;
             }
         }
     }

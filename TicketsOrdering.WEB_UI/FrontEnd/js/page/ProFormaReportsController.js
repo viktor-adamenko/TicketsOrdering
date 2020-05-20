@@ -1,5 +1,6 @@
 let reportsTable = new DataTableController();
 let notif = new NotificationController();
+let sController = new SelectController();
 
 function _initClickReportItem() {    
     $('.report-item .report-item-header').on('click', function() {   
@@ -17,8 +18,8 @@ function _createReportDataTable(selector) {
         language: reportsTable.uaLocalization(),
         pageLength: 4,
         columns: [
-            { data: "ticketVariationName", title: "Тип проїздного" },
-            { data: "countOfTrips", title: "Кі-ть поїдок", className: 'text-center' },
+            { data: "ticketVariationName", title: "Тип проїзного" },
+            { data: "countOfTrips", title: "К-ть поїздок", className: 'text-center' },
             { data: "month", title: "Місяць", className: 'text-center' },
             { data: "amount", title: "К-ть", className: 'text-center', },
             { data: "sumPrice", title: "Сумма", className: 'text-center' }
@@ -65,8 +66,8 @@ function _createContentFromJson(data) {
 
         let templateHeaderHtml = `
             <thead>
-                <th>Тип проїздного</th>
-                <th>Кі-ть поїдок</th>
+                <th>Тип проїзного</th>
+                <th>К-ть поїздок</th>
                 <th>Місяць</th>
                 <th>К-ть</th>
                 <th>Сумма</th>
@@ -123,6 +124,7 @@ class ProFormaReportsController {
 
                 $('#orders-table').html(data);
                 _this.getReports(_initClickReportItem);
+                _this.initFilterBlock();
                 resolve();
 
             },
@@ -135,17 +137,96 @@ class ProFormaReportsController {
         });
     } 
 
+    getFilter() {
+    
+        var universityGroupId = $('#university-group-id-filter').val();
+        var month = $('#month-filter').data('datepicker').selectedDates[0];
+        var ticketTypeId = $('#ticket-type-id-filter').val();
+    
+        let data =  {
+            universityGroupId: universityGroupId,
+            month: month == undefined ? undefined : formatDate(month),
+            ticketTypeId: ticketTypeId
+        };
+
+        return data;
+    }
+
+    applyFilter() {
+        let _this = this;
+        let data = this.getFilter();
+        
+        _this.getReports(_initClickReportItem, data);
+
+    }
+
+    clearFilter() {
+
+        $('#university-group-id-filter').val(null).trigger('change');
+        $('#ticket-type-id-filter').val(null).trigger('change');
+        $('#month-filter').data('datepicker').clear();        
+
+        this.getReports(_initClickReportItem);
+    }
+
+    initFilterBlock() {
+        let _this = this;
+
+        // Фильтр группы
+        selectController.initSelect2({
+            selector: "#university-group-id-filter",
+            placeholder: "Група",
+            onChange: function() {
+                _this.applyFilter();
+            }
+        });
+    
+        selectController.fillAjaxSelectData({
+            url: "/api/GetData/GetUniversityGroups"
+        }, "#university-group-id-filter");
+        // -----------------
+    
+        // Фильтр месяц
+        $('#month-filter').datepicker({
+            language: 'ua',
+            autoClose: true,
+            onSelect: function(formattedDate, date, inst) {
+                _this.applyFilter();
+            }
+        });
+        //-------------
+    
+        // Фильтр тип проездного
+        selectController.initSelect2({
+            selector: "#ticket-type-id-filter",
+            placeholder: "Тип проїзного",
+            onChange: function() {
+                _this.applyFilter();
+            }
+        });
+    
+        selectController.fillAjaxSelectData({
+            url: "/api/GetData/GetTicketTypes"
+        }, "#ticket-type-id-filter");
+        // -----------------
+    
+    }        
+
     initToIssueButton() {
         let _this = this;
 
         $('.report-item button[data-group-id]').on('click', function() { 
             let groupId = $(this).data('group-id');
             
+            var filter = _this.getFilter();
+
             $.ajax({
                 url: "/Page/ToIssueTickets/",
                 type: "POST",
                 data: {
-                    universityGroupId: groupId
+                    universityGroupId: groupId,
+                    month: filter.month,
+                    ticketTypeId: filter.ticketTypeId
                 },
                 success: function(data) {
                     if(data.success == true) {
@@ -164,12 +245,14 @@ class ProFormaReportsController {
         });
     }
 
-    getReports(callback) {
+    getReports(callback, data) {
+        debugger;
         let _this = this;
 
         $.ajax({
             url: "/Page/GetReportsByFaculty/",
             method: "GET",
+            data: data,
             success: function (data) {
 
                 _createContentFromJson(data);                

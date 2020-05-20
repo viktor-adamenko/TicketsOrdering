@@ -70,14 +70,20 @@ namespace TicketsOrdering.WEB_UI.Controllers
         {
             try
             {
-                _orderRepository.OrderTicket(model);
+                if (_orderRepository.CheckTicketOrderingByMonth(model.UserId, model.Month))
+                {
+                    _orderRepository.OrderTicket(model);
 
-                return Json(new { success = true, message = "Заявка була успішно відправлена" });
+                    return Json(new { success = true, message = "Заявка була успішно відправлена" });
+                }
+
+                return Json(new { success = false, message = "На цей місяць вже замовлено проїзний" });
+
             }
             catch (Exception ex)
             {
                 return Json(new { success = false, message = ex.Message });
-            }            
+            }
         }
 
         [HttpGet]
@@ -85,8 +91,8 @@ namespace TicketsOrdering.WEB_UI.Controllers
         {
             var data = _orderRepository.GetOrdersByUser(UserClaims.User.UserId, isClosed);
 
-            return Json(new {data = data},
-                new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()});
+            return Json(new { data = data },
+                new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
         }
 
         [HttpGet]
@@ -105,12 +111,12 @@ namespace TicketsOrdering.WEB_UI.Controllers
             try
             {
                 _requestRepository.SaveChanges(saveChangesModel);
-                return Json(new {success = true, message = "Дані були успішно збережені"});
+                return Json(new { success = true, message = "Дані були успішно збережені" });
             }
             catch (Exception ex)
             {
                 return Json(new { success = false, message = ex.Message });
-            }            
+            }
         }
 
         public IActionResult CreateReport()
@@ -118,27 +124,27 @@ namespace TicketsOrdering.WEB_UI.Controllers
             try
             {
                 _reportRepository.CreateReport(UserClaims.User.UniversityGroupId);
-                return Json(new {success = true, message = "Дані збережені успішно!"});
+                return Json(new { success = true, message = "Дані збережені успішно!" });
             }
             catch (Exception ex)
             {
                 return Json(new { success = false, message = ex.Message });
-            }            
+            }
         }
 
-        public IActionResult GetReportsByFaculty()
+        public IActionResult GetReportsByFaculty(int? universityGroupId, DateTime? month, int? ticketTypeId)
         {
-            var data = _reportRepository.GetReportsByFaculty(UserClaims.User.UniversityFacultyId);
+            var data = _reportRepository.GetReportsByFaculty(UserClaims.User.UniversityFacultyId, universityGroupId, month, ticketTypeId);
 
             return Json(data, new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
         }
 
         [HttpPost]
-        public IActionResult ToIssueTickets(int universityGroupId)
+        public IActionResult ToIssueTickets(int universityGroupId, DateTime? month, int? ticketTypeId)
         {
             try
             {
-                _reportRepository.ToIssueTickets(universityGroupId);
+                _reportRepository.ToIssueTickets(universityGroupId, month, ticketTypeId);
                 return Json(new { success = true, message = "Дані збережені успішно!" });
             }
             catch (Exception ex)

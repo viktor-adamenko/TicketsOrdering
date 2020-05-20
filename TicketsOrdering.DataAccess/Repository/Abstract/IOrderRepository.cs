@@ -9,5 +9,6 @@ namespace TicketsOrdering.DataAccess.Repository.Abstract
     {
         void OrderTicket(OrderTicketModel orderTicketModel);
         IEnumerable<Order> GetOrdersByUser(int userId, int isClosed);
+        bool CheckTicketOrderingByMonth(int userId, DateTime? month);
     }
 }

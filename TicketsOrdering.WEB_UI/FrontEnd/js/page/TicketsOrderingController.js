@@ -27,7 +27,7 @@ function _createOrderDataTable(selector, data) {
         columns: [
             {
                 data: "ticketVariation",
-                title: "Тип проїздного",
+                title: "Тип проїзного",
                 render: function (data, type, row) {
                     console.log(row)
 
@@ -90,7 +90,7 @@ class TicketsOrderingController {
 
         selectController.initSelect2({
             selector: "#ticket-type-id",
-            placeholder: "Виберіть шаблон проїздного"
+            placeholder: "Виберіть шаблон проїзного"
         });
         selectController.fillAjaxSelectData({
             url: "/api/GetData/GetTicketTypes"
@@ -105,7 +105,7 @@ class TicketsOrderingController {
 
         selectController.initSelect2({
             selector: '#ticket-variation-sel',
-            placeholder: "Проїздний",
+            placeholder: "проїзний",
             onChange: _this.onChangeTicketVariations
         });
 
@@ -213,7 +213,7 @@ class TicketsOrderingController {
             }
 
             if (ticketVariation == null || ticketVariation == '') {
-                notificationController.create("Виберіть проїздний", 'danger');
+                notificationController.create("Виберіть проїзний", 'danger');
                 isValid = false;
             }
 
@@ -372,7 +372,7 @@ class TicketsOrderingController {
 
             }
         } else {
-            notificationController.create('Виберіть шаблон проїздного', 'danger');
+            notificationController.create('Виберіть шаблон проїзного', 'danger');
         }
     }
 

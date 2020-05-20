@@ -9,5 +9,6 @@ namespace TicketsOrdering.DataAccess.Repository.Abstract
     {
         IEnumerable<Order> GetOrderRequestByUniversityGroup(int universityGroupId, int isClosed, int isSentOrder = 0);
         void SaveChanges(List<SaveChangesModel> saveChangesModel);
+
     }
 }

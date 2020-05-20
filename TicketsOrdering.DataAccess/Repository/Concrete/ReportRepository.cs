@@ -24,22 +24,27 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
             using (SqlConnection con = new SqlConnection(_connectionString))
             {
                 var query = "dbo.CreateReportByGroup";
-                
-                con.Execute(query, new { UniversityGroupId = universityGroupId }, commandType: CommandType.StoredProcedure);                
-            }
-        }
-
-        public void ToIssueTickets(int universityGroupId)
-        {
-            using (SqlConnection con = new SqlConnection(_connectionString))
-            {
-                var query = "dbo.ToIssueTickets";
 
                 con.Execute(query, new { UniversityGroupId = universityGroupId }, commandType: CommandType.StoredProcedure);
             }
         }
 
-        public IEnumerable<GroupedReportModel> GetReportsByFaculty(int universityFacultyId)
+        public void ToIssueTickets(int universityGroupId, DateTime? month, int? ticketTypeId)
+        {
+            using (SqlConnection con = new SqlConnection(_connectionString))
+            {
+                var query = "dbo.ToIssueTickets";
+
+                con.Execute(query, new
+                {
+                    UniversityGroupId = universityGroupId,
+                    Month = month,
+                    TicketTypeId = ticketTypeId
+                }, commandType: CommandType.StoredProcedure);
+            }
+        }
+
+        public IEnumerable<GroupedReportModel> GetReportsByFaculty(int universityFacultyId, int? universityGroupId, DateTime? month, int? ticketTypeId)
         {
             List<GroupedReportModel> groupedReportModels = new List<GroupedReportModel>();
             IEnumerable<ReportModel> reportModel;
@@ -47,11 +52,17 @@ namespace TicketsOrdering.DataAccess.Repository.Concrete
             {
                 var query = "dbo.GetReportsByFaculty";
 
-                reportModel =  con.Query<ReportModel>(query, new { UniversityFacultyId = universityFacultyId }, commandType: CommandType.StoredProcedure).ToList();
+                reportModel = con.Query<ReportModel>(query, new
+                {
+                    UniversityFacultyId = universityFacultyId,
+                    UniversityGroupId = universityGroupId,
+                    Month = month,
+                    TicketTypeId = ticketTypeId
+                }, commandType: CommandType.StoredProcedure).ToList();
             }
 
             var groupedModel = reportModel
-                   .GroupBy(x => new { x.UniversityGroupId, x.UniversityGroupName})
+                   .GroupBy(x => new { x.UniversityGroupId, x.UniversityGroupName })
                    .Select(s => new { UniversityGroupId = s.Key.UniversityGroupId, UniversityGroupName = s.Key.UniversityGroupName });
 
             foreach (var g in groupedModel)

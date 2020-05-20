@@ -81,7 +81,7 @@ function _createRequestDataTable(selector, data) {
         columns: [
             {
                 data: "ticketVariation",
-                title: "Тип проїздного",
+                title: "Тип проїзного",
                 render: function (data, type, row) {
 
                     let monthDiv = row.month != null ?
@@ -119,7 +119,7 @@ function _createEditableRequestDataTable(selector, data, initComplete) {
         columns: [
             {
                 data: "ticketVariation",
-                title: "Тип проїздного",
+                title: "Тип проїзного",
                 render: function (data, type, row) {
 
                     let monthDiv = row.month != null ?

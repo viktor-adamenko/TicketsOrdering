@@ -94,3 +94,24 @@
     }
   }
 }
+
+.filter-block {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+
+
+  .filter-item {
+    width: 33.33%;
+    margin-right: 15px;
+
+    input {
+      margin-top: 0;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  
+}

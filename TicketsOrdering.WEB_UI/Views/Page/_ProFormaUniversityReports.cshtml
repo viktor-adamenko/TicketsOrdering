@@ -1,12 +1,38 @@
 ﻿<div class="div-wrapper full-height" style="overflow-y: auto">
-    <span class="wrapper-header">Звіти на замовлення проїздних</span>
+    <span class="wrapper-header">Звіти на замовлення проїзних</span>
     @*<div class="switch-button-group">
-        <button class="primary-switch-button" selected-tab="true" data-tab-id="#openedRequestsListTab" afterShowEvent="">Відкриті</button>
-        <button class="transparent-switch-button" selected-tab="false" data-tab-id="#closedRequestsListTab" afterShowEvent="">Закриті</button>
-    </div>*@
+            <button class="primary-switch-button" selected-tab="true" data-tab-id="#openedRequestsListTab" afterShowEvent="">Відкриті</button>
+            <button class="transparent-switch-button" selected-tab="false" data-tab-id="#closedRequestsListTab" afterShowEvent="">Закриті</button>
+        </div>*@
     <div id="openedReportsTab">
+        <div class="filter-block form-content">
+            <div class="filter-item form-item">
+                <span class="label-text">Група</span>
+                <div class="select2-wrapper">
+                    <select id="university-group-id-filter" placeholder="Група" data-input-key="UniversityGroupId" data-validate-field></select>
+                </div>
+            </div>
+            <div class="filter-item form-item">
+                <span class="label-text">Тип проїзного</span>
+                <div class="select2-wrapper">
+                    <select id="ticket-type-id-filter" placeholder="Тип проїзного" data-input-key="TicketTypeId" data-validate-field></select>
+                </div>
+            </div>
+            <div class="filter-item form-item">
+                <span class="label-text">Місяць</span>
+                <input type="text"
+                       class="form-input form-item"
+                       autocomplete="off"
+                       data-min-view="months"
+                       data-view="months"
+                       data-date-format="MM yyyy" placeholder="Місяць" id="month-filter" />
+            </div>
+            <div class="form-item">
+                <span class="clear-filter-btn" onclick="proFormaReportsController.clearFilter()"><i class="fas fa-times"></i></span>
+            </div>
+        </div>
         <div class="custom-report-wrapper custom-table-wrapper">
         </div>
     </div>
-   
+
 </div>
